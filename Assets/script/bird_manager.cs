@@ -21,7 +21,7 @@ public class bird_manager : MonoBehaviour
 
     IEnumerator respawn_gull()
     {
-        int y = Random.Range(-2, 3);
+        int y = Random.Range(-1, 2);
         float time = 0.1f;
         yield return new WaitForSeconds(time);
         GameObject gull = Instantiate(gull_prefab);

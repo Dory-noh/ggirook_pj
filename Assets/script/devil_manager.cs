@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -9,20 +10,31 @@ public class devil_manager : MonoBehaviour
     float time;
     float speed;
     public GameObject nest;
-    int count;
+    int day;
+    bool respawn_gull;
+    bool respawn_fox;
     // Start is called before the first frame update
     void Start()
     {
         nest = GameObject.FindGameObjectWithTag("nest");
-       
-       respawn_devil_repeat();
-        
+        respawn_fox = true;
+        respawn_gull = true;
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        day = GameObject.FindGameObjectWithTag("ani_manager").GetComponent<ani_manager>().day;
+        if(day == 1 && devil_prefab.CompareTag("enemy_gull") && respawn_gull)
+        {
+            respawn_devil_repeat();
+            respawn_gull = false;
+        }
+        if(day == 5 && devil_prefab.CompareTag("enemy_fox") && respawn_fox)
+        {
+            respawn_devil_repeat();
+            respawn_fox = false;
+        }
     }
 
     IEnumerator respawn_devil()
@@ -32,7 +44,7 @@ public class devil_manager : MonoBehaviour
         while (true)
         {
             
-            int y = Random.Range(-3, 3);
+            int y = Random.Range(-1, 2);
             GameObject devil = Instantiate(devil_prefab);
             devil.transform.position = new Vector3(31, y, 0.35f);
             yield return new WaitForSeconds(time);

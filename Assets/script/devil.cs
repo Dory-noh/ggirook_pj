@@ -20,17 +20,30 @@ public class devil : MonoBehaviour
     public GameObject nest_hp_manager;
     public CharacterController devil_cc;
     public GameObject ui_manager;
-
+    int power;
     int maxhp;
     public int hp;
     Vector3 dir;
     bool ismove;
+    int point;
 
     // Start is called before the first frame update
     void Start()
     {
         ismove = true;
-        maxhp = 10;
+        if(transform.CompareTag("enemy_gull"))
+        {
+            maxhp = 50;
+            power = 5;
+            point = 35;
+        }
+        else if (transform.CompareTag("enemy_fox"))
+        {
+            maxhp = 150;
+            power = 15;
+            point = 60;
+        }
+        maxhp = 50;
         hp = maxhp;
         e_State = EnemyState.Move;
         nest = GameObject.FindGameObjectWithTag("nest");
@@ -81,11 +94,11 @@ public class devil : MonoBehaviour
     }
     public void hit()
     {
-        StartCoroutine(damage(3));
+        StartCoroutine(damage(10)); //devil의 데미지를 깎는 함수
         if (hp < 0) //죽음
         {
             Destroy(gameObject);
-            ui_manager.GetComponent<ui_manager>().coin+=2;
+            ui_manager.GetComponent<ui_manager>().coin+=point;
         }
     }
     
@@ -104,11 +117,11 @@ public class devil : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        
-        if (other.gameObject.CompareTag("gull"))
+
+        if (other.gameObject.tag.StartsWith("gull"))
         {
             ismove = false;
-            other.transform.GetComponent<gull>().hit();
+            other.transform.GetComponent<gull>().hit(power);
             transform.GetChild(0).gameObject.SetActive(false);
             transform.GetChild(1).gameObject.SetActive(true);
         }
@@ -125,7 +138,7 @@ public class devil : MonoBehaviour
             yield return new WaitForSeconds(1f);
             if (Vector3.Distance(transform.position, nest.transform.position) < 3f)
             {
-                nest_hp_manager.GetComponent<nest_hp_manager>().hp -= 3;
+                nest_hp_manager.GetComponent<nest_hp_manager>().hp -= power;
                 transform.GetChild(0).gameObject.SetActive(false);
                 transform.GetChild(1).gameObject.SetActive(true);
             }

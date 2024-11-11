@@ -19,7 +19,7 @@ public class ui_manager : MonoBehaviour
         window_img.SetActive(false);
         success_img.SetActive(false);
         fail_img.SetActive(false);
-        coin = 3;
+        coin = 1000;
         exp = 0;
         exp_bar = GameObject.FindGameObjectWithTag("exp_bar").GetComponent<Image>();
         exp_bar.fillAmount = exp;

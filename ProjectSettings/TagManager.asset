@@ -11,9 +11,16 @@ TagManager:
   - ui_manager
   - exp_bar
   - nest_hp_manager
-  - gull
   - left_btn
   - right_btn
+  - enemy_gull
+  - enemy_fox
+  - ani_manager
+  - gull_b1
+  - gull_b2
+  - gull_b3
+  - gull_b4
+  - gull_b5
   layers:
   - Default
   - TransparentFX
@@ -25,7 +32,7 @@ TagManager:
   - 
   - enemy
   - player
-  - 
+  - poop
   - 
   - 
   - 

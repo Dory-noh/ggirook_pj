@@ -8,7 +8,7 @@ public class nest_hp_manager : MonoBehaviour
     public Image hp_img;
     public int hp = 0;
     bool gameover = false;
-    public int Maxhp = 150;
+    public int Maxhp = 300;
     // Start is called before the first frame update
     void Start()
     {

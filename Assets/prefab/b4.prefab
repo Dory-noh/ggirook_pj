@@ -136,7 +136,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: debcb2043b1f86846b3552aea3e946b6, type: 2}
+  - {fileID: 2100000, guid: 8a72e80bf9f026944b61083c153087b4, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -357,7 +357,7 @@ GameObject:
   - component: {fileID: 2660104636137403645}
   m_Layer: 9
   m_Name: b4
-  m_TagString: gull
+  m_TagString: gull_b4
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -414,6 +414,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hp_img: {fileID: 0}
+  respawn_time: 0
 --- !u!1 &5831934657651242973
 GameObject:
   m_ObjectHideFlags: 0

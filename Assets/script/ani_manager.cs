@@ -7,10 +7,11 @@ public class ani_manager : MonoBehaviour
 {
     public GameObject obj;
     public Text day_text;
-    int day = 1;
+    public int day;
     // Start is called before the first frame update
     void Start()
     {
+        day = 0;
         day_text.text = "Day 1";
         StartCoroutine(sun_ani());
     }
@@ -33,8 +34,8 @@ public class ani_manager : MonoBehaviour
             else
             {
                 obj.transform.GetComponent<Animation>().Play();
-                day_text.text = "Day " + (day++).ToString();
-                yield return new WaitForSeconds(2.5f);
+                day_text.text = "Day " + (++day).ToString();
+                yield return new WaitForSeconds(6f);
             }
         }
     }
