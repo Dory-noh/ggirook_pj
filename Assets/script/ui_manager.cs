@@ -13,23 +13,28 @@ public class ui_manager : MonoBehaviour
     public int coin;
     public float exp;
     public Image exp_bar;
+    public int count; //Á×ÀÎ ÀûÀÇ ¼ö
+    public Text count_text;
     // Start is called before the first frame update
     void Start()
     {
         window_img.SetActive(false);
         success_img.SetActive(false);
         fail_img.SetActive(false);
-        coin = 1000;
+        coin = 150;
         exp = 0;
         exp_bar = GameObject.FindGameObjectWithTag("exp_bar").GetComponent<Image>();
         exp_bar.fillAmount = exp;
-        
+        count = 0;
+        count_text = GameObject.FindGameObjectWithTag("count_txt").GetComponent<Text>();
+
     }
 
     // Update is called once per frame
     void Update()
     {
         coin_text.text = coin.ToString();
+        
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             close_fail();

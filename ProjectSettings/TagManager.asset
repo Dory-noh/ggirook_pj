@@ -21,6 +21,7 @@ TagManager:
   - gull_b3
   - gull_b4
   - gull_b5
+  - count_txt
   layers:
   - Default
   - TransparentFX

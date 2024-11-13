@@ -8,6 +8,7 @@ using UnityEngine.SocialPlatforms;
 public class devil : MonoBehaviour
 {
     public Image hp_img;
+    
     enum EnemyState
     {
         Move,
@@ -25,8 +26,9 @@ public class devil : MonoBehaviour
     public int hp;
     Vector3 dir;
     bool ismove;
+    bool change_img;
     int point;
-
+    float speed;
     // Start is called before the first frame update
     void Start()
     {
@@ -36,23 +38,33 @@ public class devil : MonoBehaviour
             maxhp = 50;
             power = 5;
             point = 35;
+            speed = 0.2f;
         }
         else if (transform.CompareTag("enemy_fox"))
         {
-            maxhp = 150;
+            maxhp = 300;
             power = 15;
-            point = 60;
+            point = 80;
+            speed = 0.4f;
         }
-        maxhp = 50;
+        else if (transform.CompareTag("enemy_pelican"))
+        {
+            maxhp = 1500;
+            power = 40;
+            point = 150;
+            speed = 0.5f;
+        }
         hp = maxhp;
         e_State = EnemyState.Move;
         nest = GameObject.FindGameObjectWithTag("nest");
         nest_hp_manager = GameObject.FindGameObjectWithTag("nest_hp_manager");
         ui_manager = GameObject.FindGameObjectWithTag("ui_manager");
+        change_img = true;
+        transform.GetChild(0).gameObject.SetActive(change_img);
+        transform.GetChild(1).gameObject.SetActive(!change_img);
         StartCoroutine(Move());
         StartCoroutine(Attack());
         hp_img = gameObject.transform.GetComponentInChildren<Canvas>().transform.GetChild(1).GetComponent<Image>();
-
     }
 
     // Update is called once per frame
@@ -79,10 +91,13 @@ public class devil : MonoBehaviour
     {
         while (true)
         {
-            yield return new WaitForSeconds(0.1f);
+            yield return new WaitForSeconds(speed);
             if (ismove)
             {
                 transform.position = Vector3.Lerp(transform.position, new Vector3(nest.transform.position.x + 2, (nest.transform.position.y + 0.3f * transform.position.y), 0.35f), 0.01f * 2f);
+                change_img = !change_img;
+                transform.GetChild(0).gameObject.SetActive(change_img);
+                transform.GetChild(1).gameObject.SetActive(!change_img);
                 //if(Vector3.Distance(gull.transform.position,))
             }
             else
@@ -92,13 +107,15 @@ public class devil : MonoBehaviour
 
         }
     }
-    public void hit()
+    public void hit(int power)
     {
-        StartCoroutine(damage(10)); //devil의 데미지를 깎는 함수
+        StartCoroutine(damage(power)); //devil의 데미지를 깎는 함수
         if (hp < 0) //죽음
         {
             Destroy(gameObject);
             ui_manager.GetComponent<ui_manager>().coin+=point;
+            ui_manager.GetComponent<ui_manager>().count_text.text = (++ui_manager.GetComponent<ui_manager>().count).ToString();
+
         }
     }
     
@@ -111,8 +128,9 @@ public class devil : MonoBehaviour
         transform.position = new Vector3(transform.position.x - 0.2f, transform.position.y, transform.position.z);
         yield return new WaitForSeconds(0.3f);
         ismove = true;
-        transform.GetChild(0).gameObject.SetActive(true);
-        transform.GetChild(1).gameObject.SetActive(false);
+        transform.GetChild(0).gameObject.SetActive(false);
+        transform.GetChild(1).gameObject.SetActive(true);
+        transform.GetChild(2).gameObject.SetActive(false);
     }
 
     private void OnTriggerEnter(Collider other)
@@ -123,7 +141,8 @@ public class devil : MonoBehaviour
             ismove = false;
             other.transform.GetComponent<gull>().hit(power);
             transform.GetChild(0).gameObject.SetActive(false);
-            transform.GetChild(1).gameObject.SetActive(true);
+            transform.GetChild(1).gameObject.SetActive(false);
+            transform.GetChild(2).gameObject.SetActive(true);
         }
         StartCoroutine(wait());
     }
@@ -131,7 +150,7 @@ public class devil : MonoBehaviour
     {
         yield return new WaitForSeconds(0.3f);
     }
-    IEnumerator Attack()
+    IEnumerator Attack() // 둥지 공격
     {
         while (true)
         {
@@ -140,7 +159,8 @@ public class devil : MonoBehaviour
             {
                 nest_hp_manager.GetComponent<nest_hp_manager>().hp -= power;
                 transform.GetChild(0).gameObject.SetActive(false);
-                transform.GetChild(1).gameObject.SetActive(true);
+                transform.GetChild(1).gameObject.SetActive(false);
+                transform.GetChild(2).gameObject.SetActive(true);
             }
         }
     }

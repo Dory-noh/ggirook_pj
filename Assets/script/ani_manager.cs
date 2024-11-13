@@ -25,7 +25,7 @@ public class ani_manager : MonoBehaviour
     {
         while (true)
         {
-            if (day > 21)
+            if (day > 20)
             {
                 GameObject.FindGameObjectWithTag("ui_manager").GetComponent<ui_manager>().open_success();
                 day_text.text = "¼º°ø~!";
@@ -35,7 +35,8 @@ public class ani_manager : MonoBehaviour
             {
                 obj.transform.GetComponent<Animation>().Play();
                 day_text.text = "Day " + (++day).ToString();
-                yield return new WaitForSeconds(6f);
+                yield return new WaitForSeconds(20f);
+                obj.transform.GetComponent<Animation>().Rewind();
             }
         }
     }

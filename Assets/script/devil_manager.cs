@@ -13,12 +13,15 @@ public class devil_manager : MonoBehaviour
     int day;
     bool respawn_gull;
     bool respawn_fox;
+    bool respawn_pelican;
     // Start is called before the first frame update
     void Start()
     {
         nest = GameObject.FindGameObjectWithTag("nest");
         respawn_fox = true;
         respawn_gull = true;
+        respawn_pelican = true;
+
     }
 
     // Update is called once per frame
@@ -28,18 +31,25 @@ public class devil_manager : MonoBehaviour
         if(day == 1 && devil_prefab.CompareTag("enemy_gull") && respawn_gull)
         {
             respawn_devil_repeat();
+            time = 3;
             respawn_gull = false;
         }
-        if(day == 5 && devil_prefab.CompareTag("enemy_fox") && respawn_fox)
+        if(day == 3 && devil_prefab.CompareTag("enemy_fox") && respawn_fox)
         {
             respawn_devil_repeat();
+            time = 6;
             respawn_fox = false;
+        }
+        if (day == 8 && devil_prefab.CompareTag("enemy_pelican") && respawn_pelican)
+        {
+            respawn_devil_repeat();
+            time = 30;
+            respawn_pelican = false;
         }
     }
 
     IEnumerator respawn_devil()
     {
-        time = 3;
         yield return new WaitForSeconds(2f);
         while (true)
         {

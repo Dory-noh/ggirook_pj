@@ -11,6 +11,7 @@ public class gull : MonoBehaviour
     float hp;
     int maxhp;
     int power;
+    bool change_img;
     float speed;
     public int respawn_time;//소환까지 걸리는 시간
     // Start is called before the first frame update
@@ -49,6 +50,9 @@ public class gull : MonoBehaviour
         hp = maxhp;
         ismove = true;
         StartCoroutine(move());
+        change_img = true;
+        transform.GetChild(0).gameObject.SetActive(change_img);
+        transform.GetChild(1).gameObject.SetActive(!change_img);
         hp_img = gameObject.transform.GetComponentInChildren<Canvas>().transform.GetChild(1).GetComponent<Image>();
     }
 
@@ -66,6 +70,9 @@ public class gull : MonoBehaviour
             if (ismove)
             {
                 transform.position = Vector3.Lerp(transform.position, new Vector3(26.44f, transform.position.y, 0.35f), 0.01f * 2f);
+                change_img = !change_img;
+                transform.GetChild(0).gameObject.SetActive(change_img);
+                transform.GetChild(1).gameObject.SetActive(!change_img);
                 //if(Vector3.Distance(gull.transform.position,))
             }
             else
@@ -90,8 +97,9 @@ public class gull : MonoBehaviour
         transform.position = new Vector3(transform.position.x + 0.2f, transform.position.y, transform.position.z);
         yield return new WaitForSeconds(0.3f);
         ismove = true;
-        transform.GetChild(0).gameObject.SetActive(true);
         transform.GetChild(1).gameObject.SetActive(false);
+        transform.GetChild(1).gameObject.SetActive(true);
+        transform.GetChild(2).gameObject.SetActive(false);
     }
 
     private void OnTriggerEnter(Collider other)
@@ -100,9 +108,10 @@ public class gull : MonoBehaviour
         if (other.gameObject.tag.StartsWith("enemy"))
         {
             ismove = false;
-            other.transform.GetComponent<devil>().hit();
+            other.transform.GetComponent<devil>().hit(power);
             transform.GetChild(0).gameObject.SetActive(false);
-            transform.GetChild(1).gameObject.SetActive(true);
+            transform.GetChild(1).gameObject.SetActive(false);
+            transform.GetChild(2).gameObject.SetActive(true);
         }
 
         StartCoroutine(wait());

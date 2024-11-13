@@ -20,7 +20,7 @@ public class poop_manager : MonoBehaviour
     {
         while (true)
         {
-            yield return new WaitForSeconds(1);
+            yield return new WaitForSeconds(0.6f);
             GameObject poop = Instantiate(poop_prefab);
             poop.transform.SetParent(transform);
             poop.transform.localPosition = new Vector3(0,4.708f,0);
