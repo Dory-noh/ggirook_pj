@@ -34,7 +34,7 @@ public class ani_manager : MonoBehaviour
             else
             {
                 obj.transform.GetComponent<Animation>().Play();
-                day_text.text = "Day " + (++day).ToString();
+                day_text.text = "Day " + (++day).ToString()+" / 21";
                 yield return new WaitForSeconds(20f);
                 obj.transform.GetComponent<Animation>().Rewind();
             }

@@ -378,6 +378,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hp_img: {fileID: 0}
+  adelie_push: 0
   nest: {fileID: 0}
   nest_hp_manager: {fileID: 0}
   devil_cc: {fileID: 0}
@@ -402,7 +403,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
+  m_Size: {x: 1, y: 1.5, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!54 &3926205788296170156
 Rigidbody:

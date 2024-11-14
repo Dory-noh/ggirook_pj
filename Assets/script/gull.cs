@@ -6,6 +6,7 @@ using UnityEngine.UI;
 
 public class gull : MonoBehaviour
 {
+    public bool adelie_push;
     public Image hp_img;
     bool ismove;
     float hp;
@@ -13,10 +14,14 @@ public class gull : MonoBehaviour
     int power;
     bool change_img;
     float speed;
+    public bool time_changer;
     public int respawn_time;//소환까지 걸리는 시간
+    float origin_y;
     // Start is called before the first frame update
     void Start()
     {
+        adelie_push = false;
+        origin_y = transform.position.y;
         if (transform.CompareTag("gull_b1"))
         {
             maxhp = 50;
@@ -34,6 +39,7 @@ public class gull : MonoBehaviour
             maxhp = 200;
             power = 10;
             speed = 0.4f;
+            adelie_push = true; //위치가 너무 이상해져서 아델리의 푸시공격 당하지 않도록 설정함.
         }
         if (transform.CompareTag("gull_b4"))
         {
@@ -69,7 +75,7 @@ public class gull : MonoBehaviour
             yield return new WaitForSeconds(speed);
             if (ismove)
             {
-                transform.position = Vector3.Lerp(transform.position, new Vector3(26.44f, transform.position.y, 0.35f), 0.01f * 2f);
+                transform.position = Vector3.Lerp(transform.position, new Vector3(26.44f, origin_y, 0.35f), 0.01f * 2f);
                 change_img = !change_img;
                 transform.GetChild(0).gameObject.SetActive(change_img);
                 transform.GetChild(1).gameObject.SetActive(!change_img);
@@ -92,9 +98,9 @@ public class gull : MonoBehaviour
     {
         yield return new WaitForSeconds(0.1f);
         hp -= power;
-        transform.position = new Vector3(transform.position.x - 0.3f, transform.position.y, transform.position.z);
+        transform.position = new Vector3(transform.position.x - 0.3f, origin_y, transform.position.z);
         yield return new WaitForSeconds(0.1f);
-        transform.position = new Vector3(transform.position.x + 0.2f, transform.position.y, transform.position.z);
+        transform.position = new Vector3(transform.position.x + 0.2f, origin_y, transform.position.z);
         yield return new WaitForSeconds(0.3f);
         ismove = true;
         transform.GetChild(1).gameObject.SetActive(false);
@@ -119,5 +125,10 @@ public class gull : MonoBehaviour
     IEnumerator wait()
     {
         yield return new WaitForSeconds(0.3f);
+    }
+    public void wait_adelie()
+    {
+        StartCoroutine(wait());
+        time_changer = false;
     }
 }

@@ -8,7 +8,7 @@ using UnityEngine.SocialPlatforms;
 public class devil : MonoBehaviour
 {
     public Image hp_img;
-    
+    public bool adelie_push;
     enum EnemyState
     {
         Move,
@@ -29,10 +29,14 @@ public class devil : MonoBehaviour
     bool change_img;
     int point;
     float speed;
+    public bool time_changer;
+    float origin_y;
     // Start is called before the first frame update
     void Start()
     {
+        adelie_push = false;
         ismove = true;
+        origin_y = transform.position.y;
         if(transform.CompareTag("enemy_gull"))
         {
             maxhp = 50;
@@ -42,17 +46,17 @@ public class devil : MonoBehaviour
         }
         else if (transform.CompareTag("enemy_fox"))
         {
-            maxhp = 300;
-            power = 15;
+            maxhp = 800;
+            power = 30;
             point = 80;
             speed = 0.4f;
         }
         else if (transform.CompareTag("enemy_pelican"))
         {
-            maxhp = 1500;
-            power = 40;
+            maxhp = 2000;
+            power = 60;
             point = 150;
-            speed = 0.5f;
+            speed = 0.25f;
         }
         hp = maxhp;
         e_State = EnemyState.Move;
@@ -63,7 +67,6 @@ public class devil : MonoBehaviour
         transform.GetChild(0).gameObject.SetActive(change_img);
         transform.GetChild(1).gameObject.SetActive(!change_img);
         StartCoroutine(Move());
-        StartCoroutine(Attack());
         hp_img = gameObject.transform.GetComponentInChildren<Canvas>().transform.GetChild(1).GetComponent<Image>();
     }
 
@@ -94,7 +97,7 @@ public class devil : MonoBehaviour
             yield return new WaitForSeconds(speed);
             if (ismove)
             {
-                transform.position = Vector3.Lerp(transform.position, new Vector3(nest.transform.position.x + 2, (nest.transform.position.y + 0.3f * transform.position.y), 0.35f), 0.01f * 2f);
+                transform.position = Vector3.Lerp(transform.position, new Vector3(nest.transform.position.x + 2, (nest.transform.position.y + 0.3f * origin_y), 0.35f), 0.01f * 2f);
                 change_img = !change_img;
                 transform.GetChild(0).gameObject.SetActive(change_img);
                 transform.GetChild(1).gameObject.SetActive(!change_img);
@@ -123,9 +126,9 @@ public class devil : MonoBehaviour
     {
         yield return new WaitForSeconds(0.1f);
         hp -= power;
-        transform.position = new Vector3(transform.position.x + 0.3f,transform.position.y,transform.position.z);
+        transform.position = new Vector3(transform.position.x + 0.3f,origin_y,transform.position.z);
         yield return new WaitForSeconds(0.1f);
-        transform.position = new Vector3(transform.position.x - 0.2f, transform.position.y, transform.position.z);
+        transform.position = new Vector3(transform.position.x - 0.2f, origin_y, transform.position.z);
         yield return new WaitForSeconds(0.3f);
         ismove = true;
         transform.GetChild(0).gameObject.SetActive(false);
@@ -135,7 +138,15 @@ public class devil : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        if (other.gameObject.CompareTag("nest"))
+        {
 
+            nest_hp_manager.GetComponent<nest_hp_manager>().hp -= power;
+            transform.GetChild(0).gameObject.SetActive(false);
+            transform.GetChild(1).gameObject.SetActive(false);
+            transform.GetChild(2).gameObject.SetActive(true);
+            StartCoroutine(wait());
+        }
         if (other.gameObject.tag.StartsWith("gull"))
         {
             ismove = false;
@@ -150,19 +161,10 @@ public class devil : MonoBehaviour
     {
         yield return new WaitForSeconds(0.3f);
     }
-    IEnumerator Attack() // µÕÁö °ø°Ý
+    public void wait_adelie()
     {
-        while (true)
-        {
-            yield return new WaitForSeconds(1f);
-            if (Vector3.Distance(transform.position, nest.transform.position) < 3f)
-            {
-                nest_hp_manager.GetComponent<nest_hp_manager>().hp -= power;
-                transform.GetChild(0).gameObject.SetActive(false);
-                transform.GetChild(1).gameObject.SetActive(false);
-                transform.GetChild(2).gameObject.SetActive(true);
-            }
-        }
+        StartCoroutine(wait());
+        time_changer = false;
     }
     
 }

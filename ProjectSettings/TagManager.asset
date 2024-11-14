@@ -22,6 +22,15 @@ TagManager:
   - gull_b4
   - gull_b5
   - count_txt
+  - enemy_pelican
+  - adelie_manager
+  - adelie
+  - respawn_btn1
+  - respawn_btn2
+  - respawn_btn3
+  - respawn_btn4
+  - respawn_btn0
+  - nest_hp_text
   layers:
   - Default
   - TransparentFX
@@ -34,7 +43,7 @@ TagManager:
   - enemy
   - player
   - poop
-  - 
+  - adelie
   - 
   - 
   - 

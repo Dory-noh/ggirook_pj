@@ -15,13 +15,15 @@ public class ui_manager : MonoBehaviour
     public Image exp_bar;
     public int count; //Á×ÀÎ ÀûÀÇ ¼ö
     public Text count_text;
+    
     // Start is called before the first frame update
     void Start()
     {
+        
         window_img.SetActive(false);
         success_img.SetActive(false);
         fail_img.SetActive(false);
-        coin = 150;
+        coin = 130;
         exp = 0;
         exp_bar = GameObject.FindGameObjectWithTag("exp_bar").GetComponent<Image>();
         exp_bar.fillAmount = exp;
@@ -40,7 +42,14 @@ public class ui_manager : MonoBehaviour
             close_fail();
         }
     }
-
+    public void speed_slow()
+    {
+        Time.timeScale = 0.5f;
+    }
+    public void speed_fast()
+    {
+        Time.timeScale = 2f;
+    }
     public void open_window()
     {
         window_img.SetActive(true);

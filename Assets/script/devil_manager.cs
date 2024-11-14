@@ -37,7 +37,7 @@ public class devil_manager : MonoBehaviour
         if(day == 3 && devil_prefab.CompareTag("enemy_fox") && respawn_fox)
         {
             respawn_devil_repeat();
-            time = 6;
+            time = 20;
             respawn_fox = false;
         }
         if (day == 8 && devil_prefab.CompareTag("enemy_pelican") && respawn_pelican)
@@ -53,8 +53,8 @@ public class devil_manager : MonoBehaviour
         yield return new WaitForSeconds(2f);
         while (true)
         {
-            
-            int y = Random.Range(-1, 2);
+
+            float y = Random.Range(-0.5f, 2);
             GameObject devil = Instantiate(devil_prefab);
             devil.transform.position = new Vector3(31, y, 0.35f);
             yield return new WaitForSeconds(time);
