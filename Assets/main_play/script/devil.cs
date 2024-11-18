@@ -33,6 +33,7 @@ public class devil : MonoBehaviour
     float origin_y;
     Vector3 velo = Vector3.zero;
     Vector3 targetPos;
+    public Text damage_text;
     // Start is called before the first frame update
     void Start()
     {
@@ -77,6 +78,10 @@ public class devil : MonoBehaviour
     void Update()
     {
         hp_img.fillAmount = (float)hp / (float)maxhp;
+        if (transform.CompareTag("enemy_gull"))
+        {
+            damage_text.text = hp.ToString();
+        }
         //switch (e_State)
         //{
         //    case EnemyState.Move:
@@ -97,10 +102,10 @@ public class devil : MonoBehaviour
     {
         while (true)
         {
-            yield return new WaitForSeconds(0.07f);
+            yield return new WaitForSeconds(0.06f);
             if (ismove)
             {
-                transform.position = Vector3.SmoothDamp(transform.position, targetPos, ref velo, speed*7f);
+                transform.position = Vector3.SmoothDamp(transform.position, targetPos, ref velo, speed*10f);
                 change_img = !change_img;
                 transform.GetChild(0).gameObject.SetActive(change_img);
                 transform.GetChild(1).gameObject.SetActive(!change_img);

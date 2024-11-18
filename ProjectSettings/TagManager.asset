@@ -31,6 +31,13 @@ TagManager:
   - respawn_btn4
   - respawn_btn0
   - nest_hp_text
+  - login_panel
+  - su_panel
+  - login_bt1
+  - login_bt2
+  - notify
+  - login_id_input
+  - login_password_input
   layers:
   - Default
   - TransparentFX

@@ -21,6 +21,8 @@ public class ui_manager_athome : MonoBehaviour
     }
     public void quit_game()
     {
+        PlayerPrefs.DeleteKey("Username");
+        PlayerPrefs.Save();
         Application.Quit();
     }
 }

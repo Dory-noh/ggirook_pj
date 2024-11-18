@@ -75,10 +75,10 @@ public class gull : MonoBehaviour
     {
         while (true)
         {
-            yield return new WaitForSeconds(0.07f);
+            yield return new WaitForSeconds(0.06f);
             if (ismove)
             {
-                transform.position = Vector3.SmoothDamp(transform.position, targetPos, ref velo, speed * 7f);
+                transform.position = Vector3.SmoothDamp(transform.position, targetPos, ref velo, speed * 10f);
                 change_img = !change_img;
                 transform.GetChild(0).gameObject.SetActive(change_img);
                 transform.GetChild(1).gameObject.SetActive(!change_img);
@@ -106,7 +106,7 @@ public class gull : MonoBehaviour
         transform.position = new Vector3(transform.position.x + 0.2f, origin_y, transform.position.z);
         yield return new WaitForSeconds(0.3f);
         ismove = true;
-        transform.GetChild(1).gameObject.SetActive(false);
+        transform.GetChild(0).gameObject.SetActive(false);
         transform.GetChild(1).gameObject.SetActive(true);
         transform.GetChild(2).gameObject.SetActive(false);
     }
