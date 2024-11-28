@@ -29,6 +29,7 @@ public class devil : MonoBehaviour
     bool change_img;
     int point;
     float speed;
+    int exp;
     //public bool time_changer;
     float origin_y;
     Vector3 velo = Vector3.zero;
@@ -43,23 +44,26 @@ public class devil : MonoBehaviour
         if(transform.CompareTag("enemy_gull"))
         {
             maxhp = 50;
-            power = 5;
+            power = 6;
             point = 35;
-            speed = 0.2f;
+            speed = 0.15f;
+            exp = 3;
         }
         else if (transform.CompareTag("enemy_fox"))
         {
-            maxhp = 800;
-            power = 30;
-            point = 80;
+            maxhp = 1500;
+            power = 40;
+            point = 130;
             speed = 0.4f;
+            exp = 13;
         }
         else if (transform.CompareTag("enemy_pelican"))
         {
-            maxhp = 2000;
-            power = 60;
-            point = 150;
+            maxhp = 5000;
+            power = 70;
+            point = 250;
             speed = 0.25f;
+            exp = 23;
         }
         hp = maxhp;
         e_State = EnemyState.Move;
@@ -77,7 +81,7 @@ public class devil : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        hp_img.fillAmount = (float)hp / (float)maxhp;
+        
         if (transform.CompareTag("enemy_gull"))
         {
             damage_text.text = hp.ToString();
@@ -105,7 +109,7 @@ public class devil : MonoBehaviour
             yield return new WaitForSeconds(0.06f);
             if (ismove)
             {
-                transform.position = Vector3.SmoothDamp(transform.position, targetPos, ref velo, speed*10f);
+                transform.position = Vector3.SmoothDamp(transform.position, targetPos, ref velo, speed*700f*Time.deltaTime);
                 change_img = !change_img;
                 transform.GetChild(0).gameObject.SetActive(change_img);
                 transform.GetChild(1).gameObject.SetActive(!change_img);
@@ -122,20 +126,40 @@ public class devil : MonoBehaviour
     public void hit(int power)
     {
         StartCoroutine(damage(power)); //devilÀÇ µ¥¹ÌÁö¸¦ ±ð´Â ÇÔ¼ö
-        if (hp < 0) //Á×À½
-        {
-            Destroy(gameObject);
-            ui_manager.GetComponent<ui_manager>().coin+=point;
-            ui_manager.GetComponent<ui_manager>().count_text.text = (++ui_manager.GetComponent<ui_manager>().count).ToString();
-
-        }
+        
+        
     }
     
     IEnumerator damage(int power)
     {
+
         yield return new WaitForSeconds(0.1f);
         hp -= power;
-        transform.position = new Vector3(transform.position.x + 0.3f,origin_y,transform.position.z);
+        hp = Mathf.Clamp(hp, 0, maxhp);
+        if (hp <= 0) //Á×À½
+        {
+            Destroy(gameObject, 0.01f);
+            ui_manager.GetComponent<ui_manager>().coin += point;
+            ui_manager.GetComponent<ui_manager>().count_text.text = (++ui_manager.GetComponent<ui_manager>().count).ToString();
+            ui_manager.GetComponent<ui_manager>().exp += exp;
+            ui_manager.GetComponent<ui_manager>().exp_bar.fillAmount = (float)ui_manager.GetComponent<ui_manager>().exp / (float)ui_manager.GetComponent<ui_manager>().initExp;
+            if (ui_manager.GetComponent<ui_manager>().exp_bar.fillAmount >= 1)
+            {
+                ui_manager.GetComponent<ui_manager>().level_text.text = (++ui_manager.GetComponent<ui_manager>().level).ToString();
+                ui_manager.GetComponent<ui_manager>().initExp *= 2;
+                ui_manager.GetComponent<ui_manager>().exp = 0;
+            }
+        }
+        hp_img.fillAmount = (float)hp / (float)maxhp;
+        if (hp_img.fillAmount <= 0.3f)
+        {
+            hp_img.color = Color.red;
+        }
+        else if (hp_img.fillAmount <= 0.5f)
+        {
+            hp_img.color = Color.yellow;
+        }
+        transform.position = new Vector3(transform.position.x + 0.23f,origin_y,transform.position.z);
         yield return new WaitForSeconds(0.1f);
         transform.position = new Vector3(transform.position.x - 0.2f, origin_y, transform.position.z);
         yield return new WaitForSeconds(0.3f);
@@ -143,6 +167,7 @@ public class devil : MonoBehaviour
         transform.GetChild(0).gameObject.SetActive(false);
         transform.GetChild(1).gameObject.SetActive(true);
         transform.GetChild(2).gameObject.SetActive(false);
+        
     }
 
     private void OnTriggerEnter(Collider other)

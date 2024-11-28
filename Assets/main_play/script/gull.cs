@@ -45,14 +45,14 @@ public class gull : MonoBehaviour
         }
         if (transform.CompareTag("gull_b4"))
         {
-            maxhp = 40;
-            power = 100;
+            maxhp = 400;
+            power = 20;
             speed = 0.2f;
         }
         if (transform.CompareTag("gull_b5"))
         {
-            maxhp = 60;
-            power = 60;
+            maxhp = 150;
+            power = 250;
             speed = 0.2f;
         }
         hp = maxhp;
@@ -68,7 +68,7 @@ public class gull : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        hp_img.fillAmount = (float)hp / (float)maxhp;
+       
     }
 
     IEnumerator move()
@@ -78,7 +78,7 @@ public class gull : MonoBehaviour
             yield return new WaitForSeconds(0.06f);
             if (ismove)
             {
-                transform.position = Vector3.SmoothDamp(transform.position, targetPos, ref velo, speed * 10f);
+                transform.position = Vector3.SmoothDamp(transform.position, targetPos, ref velo, speed * 700f*Time.deltaTime);
                 change_img = !change_img;
                 transform.GetChild(0).gameObject.SetActive(change_img);
                 transform.GetChild(1).gameObject.SetActive(!change_img);
@@ -94,14 +94,26 @@ public class gull : MonoBehaviour
     public void hit(int power)
     {
         StartCoroutine(damage(power)); //gull의 데미지를 깎는 함수
-        if (hp < 0) Destroy(gameObject);
+        
+        
     }
 
     IEnumerator damage(int power)
     {
         yield return new WaitForSeconds(0.1f);
         hp -= power;
-        transform.position = new Vector3(transform.position.x - 0.3f, origin_y, transform.position.z);
+        hp = Mathf.Clamp(hp, 0, maxhp);
+        if (hp <= 0) Destroy(gameObject, 0.01f);
+        hp_img.fillAmount = (float)hp / (float)maxhp;
+        if (hp_img.fillAmount <= 0.3f)
+        {
+            hp_img.color = Color.red;
+        }
+        else if (hp_img.fillAmount <= 0.5f)
+        {
+            hp_img.color = Color.yellow;
+        }
+        transform.position = new Vector3(transform.position.x - 0.23f, origin_y, transform.position.z);
         yield return new WaitForSeconds(0.1f);
         transform.position = new Vector3(transform.position.x + 0.2f, origin_y, transform.position.z);
         yield return new WaitForSeconds(0.3f);

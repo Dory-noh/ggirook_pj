@@ -38,6 +38,7 @@ TagManager:
   - notify
   - login_id_input
   - login_password_input
+  - LEVELTXT
   layers:
   - Default
   - TransparentFX

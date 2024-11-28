@@ -11,8 +11,11 @@ public class ui_manager : MonoBehaviour
     public GameObject fail_img;
     public Text coin_text;
     public int coin;
-    public float exp;
+    public int exp;
+    public int initExp = 15;
     public Image exp_bar;
+    public int level;
+    public Text level_text;
     public int count; //Á×ÀÎ ÀûÀÇ ¼ö
     public Text count_text;
     
@@ -25,7 +28,10 @@ public class ui_manager : MonoBehaviour
         fail_img.SetActive(false);
         coin = 130;
         exp = 0;
+        level = 1;
         exp_bar = GameObject.FindGameObjectWithTag("exp_bar").GetComponent<Image>();
+        level_text = GameObject.FindGameObjectWithTag("LEVELTXT").GetComponent<Text>();
+        level_text.text = level.ToString();
         exp_bar.fillAmount = exp;
         count = 0;
         count_text = GameObject.FindGameObjectWithTag("count_txt").GetComponent<Text>();
