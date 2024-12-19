@@ -19,7 +19,8 @@ public class gull : MonoBehaviour
     Vector3 targetPos;
     public int respawn_time;//소환까지 걸리는 시간
     float origin_y;
-    // Start is called before the first frame update
+    
+
     void Start()
     {
         adelie_push = false;
@@ -62,7 +63,7 @@ public class gull : MonoBehaviour
         transform.GetChild(0).gameObject.SetActive(change_img);
         transform.GetChild(1).gameObject.SetActive(!change_img);
         hp_img = gameObject.transform.GetComponentInChildren<Canvas>().transform.GetChild(1).GetComponent<Image>();
-        targetPos = new Vector3(26.44f, origin_y, 0.35f);
+        targetPos = new Vector3(30.44f, origin_y, 0.35f);
     }
 
     // Update is called once per frame
@@ -123,13 +124,12 @@ public class gull : MonoBehaviour
         transform.GetChild(2).gameObject.SetActive(false);
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerEnter2D(Collider2D col)
     {
-        
-        if (other.gameObject.tag.StartsWith("enemy"))
+        if (col.gameObject.tag.StartsWith("enemy"))
         {
             ismove = false;
-            other.transform.GetComponent<devil>().hit(power);
+            col.transform.GetComponent<devil>().hit(power);
             transform.GetChild(0).gameObject.SetActive(false);
             transform.GetChild(1).gameObject.SetActive(false);
             transform.GetChild(2).gameObject.SetActive(true);
@@ -137,6 +137,7 @@ public class gull : MonoBehaviour
 
         StartCoroutine(wait());
     }
+
     IEnumerator wait()
     {
         yield return new WaitForSeconds(0.3f);

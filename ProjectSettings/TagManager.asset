@@ -39,6 +39,9 @@ TagManager:
   - login_id_input
   - login_password_input
   - LEVELTXT
+  - event_manager
+  - RAINBTN
+  - NESTUPGRADEBTN
   layers:
   - Default
   - TransparentFX
@@ -75,4 +78,10 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Enemy
+    uniqueID: 2261049865
+    locked: 0
+  - name: Player
+    uniqueID: 1620373967
     locked: 0

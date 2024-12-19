@@ -13,6 +13,8 @@ public class bird_manager : MonoBehaviour
     public int gull_num;
     public Image respawn_btn_img;
     float time_space;
+    private readonly string[] gullNames = { "gull_b1", "gull_b2", "gull_b3", "gull_b4", "gull_b5" };
+    private readonly float[] respawnTimes = {0.4f,0.6f,1f,1.6f,3f };
     // Start is called before the first frame update
     void Start()
     {
@@ -25,26 +27,12 @@ public class bird_manager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
-        if (gull_prefab.transform.CompareTag("gull_b1"))
-        {
-            time = 0.4f;
-        }
-        else if (gull_prefab.transform.CompareTag("gull_b2"))
-        {
-            time = 0.6f;
-        }
-        else if (gull_prefab.transform.CompareTag("gull_b3"))
-        {
-            time = 1f;
-        }
-        else if (gull_prefab.transform.CompareTag("gull_b4"))
-        {
-            time = 1.6f;
-        }
-        else if (gull_prefab.transform.CompareTag("gull_b5"))
-        {
-            time = 3f;
+        for (int i = 0; i < gullNames.Length; i++) {
+            if (gull_prefab.transform.CompareTag(gullNames[i]))
+            {
+                time = respawnTimes[i];
+                break;
+            }
         }
         
     }

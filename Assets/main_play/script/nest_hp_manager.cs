@@ -25,7 +25,7 @@ public class nest_hp_manager : MonoBehaviour
     {
         nest_hp_text.text = hp.ToString() + " / " + Maxhp.ToString();
         hp_img.fillAmount = (float)hp/(float)Maxhp;
-        if (hp < 0 && gameover == false)
+        if (hp <= 0 && gameover == false)
         {
             GameObject.FindGameObjectWithTag("ui_manager").GetComponent<ui_manager>().open_fail();
             gameover = true;

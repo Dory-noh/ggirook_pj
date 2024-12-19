@@ -35,13 +35,15 @@ public class devil : MonoBehaviour
     Vector3 velo = Vector3.zero;
     Vector3 targetPos;
     public Text damage_text;
+    public RainEvent_manager rainEvent_Manager;
+    public NestUpgrade_manager nestUpgrade_Manager;
     // Start is called before the first frame update
     void Start()
     {
         adelie_push = false;
         ismove = true;
         origin_y = transform.position.y;
-        if(transform.CompareTag("enemy_gull"))
+        if (transform.CompareTag("enemy_gull"))
         {
             maxhp = 50;
             power = 6;
@@ -53,23 +55,25 @@ public class devil : MonoBehaviour
         {
             maxhp = 1500;
             power = 40;
-            point = 130;
+            point = 260;
             speed = 0.4f;
-            exp = 13;
+            exp = 23;
         }
         else if (transform.CompareTag("enemy_pelican"))
         {
-            maxhp = 5000;
+            maxhp = 4500;
             power = 70;
-            point = 250;
+            point = 550;
             speed = 0.25f;
-            exp = 23;
+            exp = 56;
         }
         hp = maxhp;
         e_State = EnemyState.Move;
         nest = GameObject.FindGameObjectWithTag("nest");
         nest_hp_manager = GameObject.FindGameObjectWithTag("nest_hp_manager");
         ui_manager = GameObject.FindGameObjectWithTag("ui_manager");
+        rainEvent_Manager = GameObject.FindGameObjectWithTag("event_manager").GetComponent<RainEvent_manager>();
+        nestUpgrade_Manager = GameObject.FindGameObjectWithTag("event_manager").GetComponent<NestUpgrade_manager>();
         change_img = true;
         transform.GetChild(0).gameObject.SetActive(change_img);
         transform.GetChild(1).gameObject.SetActive(!change_img);
@@ -81,7 +85,7 @@ public class devil : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
         if (transform.CompareTag("enemy_gull"))
         {
             damage_text.text = hp.ToString();
@@ -109,11 +113,11 @@ public class devil : MonoBehaviour
             yield return new WaitForSeconds(0.06f);
             if (ismove)
             {
-                transform.position = Vector3.SmoothDamp(transform.position, targetPos, ref velo, speed*700f*Time.deltaTime);
+                transform.position = Vector3.SmoothDamp(transform.position, targetPos, ref velo, speed * 700f * Time.deltaTime);
                 change_img = !change_img;
                 transform.GetChild(0).gameObject.SetActive(change_img);
                 transform.GetChild(1).gameObject.SetActive(!change_img);
-                
+
                 //if(Vector3.Distance(gull.transform.position,))
             }
             else
@@ -126,10 +130,10 @@ public class devil : MonoBehaviour
     public void hit(int power)
     {
         StartCoroutine(damage(power)); //devil의 데미지를 깎는 함수
-        
-        
+
+
     }
-    
+
     IEnumerator damage(int power)
     {
 
@@ -145,9 +149,12 @@ public class devil : MonoBehaviour
             ui_manager.GetComponent<ui_manager>().exp_bar.fillAmount = (float)ui_manager.GetComponent<ui_manager>().exp / (float)ui_manager.GetComponent<ui_manager>().initExp;
             if (ui_manager.GetComponent<ui_manager>().exp_bar.fillAmount >= 1)
             {
+                ui_manager.GetComponent<ui_manager>().exp_coin++;
                 ui_manager.GetComponent<ui_manager>().level_text.text = (++ui_manager.GetComponent<ui_manager>().level).ToString();
                 ui_manager.GetComponent<ui_manager>().initExp *= 2;
                 ui_manager.GetComponent<ui_manager>().exp = 0;
+                ui_manager.GetComponent<ui_manager>().exp_bar.fillAmount = (float)ui_manager.GetComponent<ui_manager>().exp / (float)ui_manager.GetComponent<ui_manager>().initExp;
+
             }
         }
         hp_img.fillAmount = (float)hp / (float)maxhp;
@@ -159,7 +166,7 @@ public class devil : MonoBehaviour
         {
             hp_img.color = Color.yellow;
         }
-        transform.position = new Vector3(transform.position.x + 0.23f,origin_y,transform.position.z);
+        transform.position = new Vector3(transform.position.x + 0.23f, origin_y, transform.position.z);
         yield return new WaitForSeconds(0.1f);
         transform.position = new Vector3(transform.position.x - 0.2f, origin_y, transform.position.z);
         yield return new WaitForSeconds(0.3f);
@@ -167,24 +174,25 @@ public class devil : MonoBehaviour
         transform.GetChild(0).gameObject.SetActive(false);
         transform.GetChild(1).gameObject.SetActive(true);
         transform.GetChild(2).gameObject.SetActive(false);
-        
+
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerEnter2D(Collider2D col)
     {
-        if (other.gameObject.CompareTag("nest"))
+        if (col.gameObject.CompareTag("nest"))
         {
-
+            
             nest_hp_manager.GetComponent<nest_hp_manager>().hp -= power;
+            nest_hp_manager.GetComponent<nest_hp_manager>().hp = Mathf.Clamp(nest_hp_manager.GetComponent<nest_hp_manager>().hp,0, 100);
             transform.GetChild(0).gameObject.SetActive(false);
             transform.GetChild(1).gameObject.SetActive(false);
             transform.GetChild(2).gameObject.SetActive(true);
             StartCoroutine(wait());
         }
-        if (other.gameObject.tag.StartsWith("gull"))
+        if (col.gameObject.tag.StartsWith("gull"))
         {
             ismove = false;
-            other.transform.GetComponent<gull>().hit(power);
+            col.transform.GetComponent<gull>().hit(power);
             transform.GetChild(0).gameObject.SetActive(false);
             transform.GetChild(1).gameObject.SetActive(false);
             transform.GetChild(2).gameObject.SetActive(true);
@@ -203,7 +211,7 @@ public class devil : MonoBehaviour
     public void wait_adelie()
     {
         StartCoroutine(wait2());
-        
+
     }
-    
+
 }

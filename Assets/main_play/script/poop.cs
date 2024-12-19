@@ -1,17 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class poop : MonoBehaviour
 {
-    Rigidbody rb;
+    Rigidbody2D rb;
     int power;
     int speed;
     private void Start()
     {
-        rb = transform.GetComponent<Rigidbody>();
+        rb = transform.GetComponent<Rigidbody2D>();
         speed = 140;
-        power = 5;
+        power = 10;
         StartCoroutine(move());
     }
     IEnumerator move()
@@ -21,13 +22,13 @@ public class poop : MonoBehaviour
         //if(Vector3.Distance(gull.transform.position,))
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerEnter2D(Collider2D col)
     {
-
-        if (other.gameObject.tag.StartsWith("enemy"))
+        if (col.gameObject.tag.StartsWith("enemy"))
         {
-            other.transform.GetComponent<devil>().hit(power);
+            col.transform.GetComponent<devil>().hit(power);
             Destroy(gameObject);
         }
     }
+
 }

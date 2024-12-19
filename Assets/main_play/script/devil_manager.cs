@@ -1,55 +1,61 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Data;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UIElements;
 
+public class EnemySpawnRule
+{
+    public int day;
+    public string tag;
+    public int time;
+    public bool respawnFlag;
+}
 public class devil_manager : MonoBehaviour
 {
+    public Dictionary<int, EnemySpawnRule> enemySpawnRules = new Dictionary<int, EnemySpawnRule>();
     public GameObject devil_prefab;
     float time;
     float speed;
     public GameObject nest;
+    ani_manager aniManager;
     int day;
     string enemy_name = "";
-    bool respawn_gull;
-    bool respawn_fox;
-    bool respawn_pelican;
     // Start is called before the first frame update
     void Start()
     {
         nest = GameObject.FindGameObjectWithTag("nest");
-        respawn_fox = true;
-        respawn_gull = true;
-        respawn_pelican = true;
+        
+            enemySpawnRules.Add(1, new EnemySpawnRule { day = 1, tag = "enemy_gull", time = 3, respawnFlag = true });
+            enemySpawnRules.Add(3, new EnemySpawnRule { day = 3, tag = "enemy_fox", time = 20, respawnFlag = true });
+            enemySpawnRules.Add(8, new EnemySpawnRule { day = 8, tag = "enemy_pelican", time = 30, respawnFlag = true });
+        aniManager = GameObject.FindGameObjectWithTag("ani_manager").GetComponent<ani_manager>();
+
 
     }
 
     // Update is called once per frame
     void Update()
     {
-        day = GameObject.FindGameObjectWithTag("ani_manager").GetComponent<ani_manager>().day;
-        if(day == 1 && devil_prefab.CompareTag("enemy_gull") && respawn_gull)
+        day = aniManager.day;
+        if(day<=8) CheckEnemySpawn();
+    }
+    void CheckEnemySpawn()
+    {
+
+        if (enemySpawnRules.ContainsKey(day))
         {
-            enemy_name = "enemy_gull";
-            respawn_devil_repeat();
-            time = 3;
-            respawn_gull = false;
+            EnemySpawnRule rule = enemySpawnRules[day];
+            if (day == rule.day && devil_prefab.CompareTag(rule.tag) && rule.respawnFlag)
+            {
+                enemy_name = rule.tag;
+                respawn_devil_repeat();
+                time = rule.time;
+                rule.respawnFlag = false;
+            }
         }
-        if(day == 3 && devil_prefab.CompareTag("enemy_fox") && respawn_fox)
-        {
-            enemy_name = "enemy_fox";
-            respawn_devil_repeat();
-            time = 20;
-            respawn_fox = false;
-        }
-        if (day == 8 && devil_prefab.CompareTag("enemy_pelican") && respawn_pelican)
-        {
-            enemy_name = "enemy_pelican";
-            respawn_devil_repeat();
-            time = 30;
-            respawn_pelican = false;
-        }
+           
     }
 
     IEnumerator respawn_devil()
@@ -57,7 +63,7 @@ public class devil_manager : MonoBehaviour
         yield return new WaitForSeconds(2f);
         while (true)
         {
-
+            
             float y = Random.Range(-0.5f, 2);
             GameObject devil = Instantiate(devil_prefab);
             devil.transform.name = enemy_name;

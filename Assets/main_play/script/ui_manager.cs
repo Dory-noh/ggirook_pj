@@ -3,14 +3,30 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using Unity.VisualScripting;
 
 public class ui_manager : MonoBehaviour
 {
+    public static ui_manager instance;
+
+    private void Awake()
+    {
+        if(instance == null)
+        {
+            instance = this;
+        }
+        else if (instance != this)
+        {
+            Destroy(gameObject);
+        }
+    }
     public GameObject window_img;
     public GameObject success_img;
     public GameObject fail_img;
     public Text coin_text;
     public int coin;
+    public Text exp_coin_text;
+    public int exp_coin;
     public int exp;
     public int initExp = 15;
     public Image exp_bar;
@@ -18,7 +34,11 @@ public class ui_manager : MonoBehaviour
     public Text level_text;
     public int count; //Á×ÀÎ ÀûÀÇ ¼ö
     public Text count_text;
-    
+
+    private readonly string eventManagerTag = "event_manager";
+
+    [SerializeField]private RainEvent_manager rainEvent_manager;
+    [SerializeField]private NestUpgrade_manager nestUpgrade_manager;
     // Start is called before the first frame update
     void Start()
     {
@@ -27,6 +47,7 @@ public class ui_manager : MonoBehaviour
         success_img.SetActive(false);
         fail_img.SetActive(false);
         coin = 130;
+        exp_coin = 0;
         exp = 0;
         level = 1;
         exp_bar = GameObject.FindGameObjectWithTag("exp_bar").GetComponent<Image>();
@@ -35,13 +56,40 @@ public class ui_manager : MonoBehaviour
         exp_bar.fillAmount = exp;
         count = 0;
         count_text = GameObject.FindGameObjectWithTag("count_txt").GetComponent<Text>();
+        rainEvent_manager = GameObject.FindGameObjectWithTag(eventManagerTag).GetComponent<RainEvent_manager>();
+        nestUpgrade_manager = GameObject.FindGameObjectWithTag(eventManagerTag).GetComponent<NestUpgrade_manager>();
+    }
+    public void Skill_btn(int skillNum)
+    {
+        int temp = exp_coin-1;
+        if(skillNum == 0)
+        {
+            if (temp >= 0)
+            {
+                nestUpgrade_manager.canUpgrade = true;
+                exp_coin -= 1;
+                nestUpgrade_manager.UpgradeNestHp();
+            }
+        }
+        else if (skillNum == 1) 
+        {
+            if (temp >= 0)
+            {
+                rainEvent_manager.canRain = true;
+                exp_coin -= 1;
+                rainEvent_manager.dropRainEvent();
+            }
+        }
+
+        
+
 
     }
-
     // Update is called once per frame
     void Update()
     {
         coin_text.text = coin.ToString();
+        exp_coin_text.text = exp_coin.ToString();
         
     }
     public void speed_slow()
