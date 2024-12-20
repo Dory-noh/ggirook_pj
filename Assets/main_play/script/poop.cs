@@ -20,6 +20,7 @@ public class poop : MonoBehaviour
         yield return new WaitForSeconds(0.1f);
         rb.AddForce(Vector3.right*speed);
         //if(Vector3.Distance(gull.transform.position,))
+        Destroy(gameObject, 4f);
     }
 
     private void OnTriggerEnter2D(Collider2D col)

@@ -36,9 +36,11 @@ public class ui_manager : MonoBehaviour
     public Text count_text;
 
     private readonly string eventManagerTag = "event_manager";
+    private readonly string adelieManagerTag = "adelie_manager";
 
     [SerializeField]private RainEvent_manager rainEvent_manager;
     [SerializeField]private NestUpgrade_manager nestUpgrade_manager;
+    [SerializeField] private adelie_manager adelie_Manager;
     // Start is called before the first frame update
     void Start()
     {
@@ -58,6 +60,7 @@ public class ui_manager : MonoBehaviour
         count_text = GameObject.FindGameObjectWithTag("count_txt").GetComponent<Text>();
         rainEvent_manager = GameObject.FindGameObjectWithTag(eventManagerTag).GetComponent<RainEvent_manager>();
         nestUpgrade_manager = GameObject.FindGameObjectWithTag(eventManagerTag).GetComponent<NestUpgrade_manager>();
+        adelie_Manager = GameObject.FindGameObjectWithTag(adelieManagerTag).GetComponent<adelie_manager>();
     }
     public void Skill_btn(int skillNum)
     {
@@ -80,7 +83,15 @@ public class ui_manager : MonoBehaviour
                 rainEvent_manager.dropRainEvent();
             }
         }
-
+        else if(skillNum ==2){
+            
+            if(temp >= 0)
+            {
+                adelie_Manager.goAdelie = true;
+                exp_coin -= 1;
+                adelie_Manager.RespawnAdelie();
+            }
+        }
         
 
 

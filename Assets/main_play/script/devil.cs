@@ -203,15 +203,15 @@ public class devil : MonoBehaviour
     {
         yield return new WaitForSeconds(0.3f);
     }
-    IEnumerator wait2()
-    {
-        yield return new WaitForSeconds(1f);
-        adelie_push = false;
-    }
-    public void wait_adelie()
-    {
-        StartCoroutine(wait2());
+    //IEnumerator wait2()
+    //{
+    //    yield return new WaitForSeconds(1f);
+    //    adelie_push = false;
+    //}
+    //public void wait_adelie()
+    //{
+    //    StartCoroutine(wait2());
 
-    }
+    //}
 
 }

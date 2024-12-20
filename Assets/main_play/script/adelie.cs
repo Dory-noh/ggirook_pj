@@ -12,14 +12,17 @@ public class adelie : MonoBehaviour
     public bool adeli_push;
     public Vector3 velo = Vector3.zero;
     public Vector3 targetPos;
+    float y = 0;
     // Start is called before the first frame update
     void Start()
     {
         adelie_manager = GameObject.FindGameObjectWithTag("adelie_manager");
-        dir = adelie_manager.GetComponent<adelie_manager>().dir == 0 ? 1 : 0; // 변환된 dir = 1 -> 오른쪽으로 이동, dir = 0 -> 왼쪽으로 이동
-        pos = adelie_manager.GetComponent<adelie_manager>().pos[dir];
+        //dir = adelie_manager.GetComponent<adelie_manager>().dir == 0 ? 1 : 0; // 변환된 dir = 1 -> 오른쪽으로 이동, dir = 0 -> 왼쪽으로 이동
+        //pos = adelie_manager.GetComponent<adelie_manager>().pos[dir];
         nest_hp_manager = GameObject.FindGameObjectWithTag("nest_hp_manager");
         StartCoroutine(Move());
+        y = Random.Range(-0.5f, 2);
+        pos = new Vector3(37, y, 0.35f);
     }
 
     // Update is called once per frame
@@ -49,18 +52,18 @@ public class adelie : MonoBehaviour
             adeli_push = nest_hp_manager.GetComponent<nest_hp_manager>().adeli_push;
             if (!adeli_push)
             {
-                nest_hp_manager.GetComponent<nest_hp_manager>().hp -= 1;
+                nest_hp_manager.GetComponent<nest_hp_manager>().hp -= 2;
                 nest_hp_manager.GetComponent<nest_hp_manager>().wait_adelie();
             }
             
         }
         else
         {
-            if (other.gameObject.tag.StartsWith("gull"))
-            {
-                adeli_push = other.transform.GetComponent<gull>().adelie_push;
-            }
-            else if (other.gameObject.tag.StartsWith("enemy"))
+            //if (other.gameObject.tag.StartsWith("gull"))
+            //{
+            //    adeli_push = other.transform.GetComponent<gull>().adelie_push;
+            //}
+            if (other.gameObject.tag.StartsWith("enemy"))
             {
                 adeli_push = other.transform.GetComponent<devil>().adelie_push;
             }
@@ -79,21 +82,20 @@ public class adelie : MonoBehaviour
                 {
                     if (other.gameObject.transform.position.y > 1.5f) y = 0;
                 }
-                if (other.gameObject.tag.StartsWith("gull") && other.GetComponent<gull>().adelie_push == false)
-                {
-                    other.GetComponent<gull>().adelie_push = true;
-                    targetPos = other.gameObject.transform.position + new Vector3(x * 5, y * 5, 0);
-                    other.gameObject.transform.position = Vector3.SmoothDamp(other.transform.position, targetPos, ref velo, 0.1f);
-                    other.GetComponent<gull>().wait_adelie();
+                //if (other.gameObject.tag.StartsWith("gull") && other.GetComponent<gull>().adelie_push == false)
+                //{
+                //    other.GetComponent<gull>().adelie_push = true;
+                //    targetPos = other.gameObject.transform.position + new Vector3(x * 10, y * 5, 0);
+                //    other.gameObject.transform.position = Vector3.SmoothDamp(other.transform.position, targetPos, ref velo, 0.1f);
+                //    other.GetComponent<gull>().wait_adelie();
 
-                }
-                else if (other.gameObject.tag.StartsWith("enemy") && other.GetComponent<devil>().adelie_push == false)
+                //}
+                if (other.gameObject.tag.StartsWith("enemy"))// && other.GetComponent<devil>().adelie_push == false
                 {
-                    other.GetComponent<devil>().adelie_push = true;
+                    //other.GetComponent<devil>().adelie_push = true;
                     if (other.gameObject.transform.position.x < -0.8f) x = 0;
-                    targetPos = other.gameObject.transform.position + new Vector3(x * 4, y*3, 0);
-                    other.gameObject.transform.position = Vector3.SmoothDamp(other.transform.position, targetPos, ref velo, 0.1f);
-                    other.GetComponent<devil>().wait_adelie();
+                    other.gameObject.transform.position=new Vector3(other.gameObject.transform.position.x+1f , other.gameObject.transform.position.y, other.gameObject.transform.position.z);
+                    //other.GetComponent<devil>().wait_adelie();
                 }
             }
         }

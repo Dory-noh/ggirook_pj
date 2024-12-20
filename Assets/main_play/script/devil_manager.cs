@@ -29,7 +29,7 @@ public class devil_manager : MonoBehaviour
         
             enemySpawnRules.Add(1, new EnemySpawnRule { day = 1, tag = "enemy_gull", time = 3, respawnFlag = true });
             enemySpawnRules.Add(3, new EnemySpawnRule { day = 3, tag = "enemy_fox", time = 20, respawnFlag = true });
-            enemySpawnRules.Add(8, new EnemySpawnRule { day = 8, tag = "enemy_pelican", time = 30, respawnFlag = true });
+            enemySpawnRules.Add(8, new EnemySpawnRule { day = 8, tag = "enemy_pelican", time = 40, respawnFlag = true });
         aniManager = GameObject.FindGameObjectWithTag("ani_manager").GetComponent<ani_manager>();
 
 
