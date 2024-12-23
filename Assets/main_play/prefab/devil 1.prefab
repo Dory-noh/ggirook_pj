@@ -483,6 +483,8 @@ MonoBehaviour:
   ui_manager: {fileID: 0}
   hp: 0
   damage_text: {fileID: 187893888449499359}
+  rainEvent_Manager: {fileID: 0}
+  nestUpgrade_Manager: {fileID: 0}
 --- !u!61 &6008205192842034755
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -554,7 +556,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 1
-  m_Constraints: 4
+  m_Constraints: 7
 --- !u!1 &5450407705106415985
 GameObject:
   m_ObjectHideFlags: 0

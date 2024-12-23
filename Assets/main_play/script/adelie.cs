@@ -8,6 +8,7 @@ public class adelie : MonoBehaviour
     public Vector3 pos;
     public int dir;
     GameObject adelie_manager;
+    private Rigidbody2D rb;
     public GameObject nest_hp_manager;
     public bool adeli_push;
     public Vector3 velo = Vector3.zero;
@@ -16,6 +17,7 @@ public class adelie : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        rb = GetComponent<Rigidbody2D>();
         adelie_manager = GameObject.FindGameObjectWithTag("adelie_manager");
         //dir = adelie_manager.GetComponent<adelie_manager>().dir == 0 ? 1 : 0; // 변환된 dir = 1 -> 오른쪽으로 이동, dir = 0 -> 왼쪽으로 이동
         //pos = adelie_manager.GetComponent<adelie_manager>().pos[dir];
@@ -36,6 +38,7 @@ public class adelie : MonoBehaviour
         {
             yield return new WaitForSeconds(speed);
             transform.position = Vector3.Lerp(transform.position, pos, 0.01f * 2f);
+            //rb.AddForce(Vector2.right);
             if (Vector3.Distance(transform.position, pos) < 3) Destroy(gameObject);
             //change_img = !change_img;
             //transform.GetChild(0).gameObject.SetActive(change_img);

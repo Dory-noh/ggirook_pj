@@ -26,8 +26,8 @@ public class NestUpgrade_manager : MonoBehaviour
         if (canUpgrade)
         {
             canUpgrade = false;
-            nest_Hp_Manager.hp += 100;
-            nest_Hp_Manager.Maxhp += 100;
+            nest_Hp_Manager.hp += 300;
+            nest_Hp_Manager.Maxhp += 300;
         }
     }
 

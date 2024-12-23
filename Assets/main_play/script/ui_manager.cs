@@ -34,6 +34,7 @@ public class ui_manager : MonoBehaviour
     public Text level_text;
     public int count; //Á×ÀÎ ÀûÀÇ ¼ö
     public Text count_text;
+    bool isPause = false;
 
     private readonly string eventManagerTag = "event_manager";
     private readonly string adelieManagerTag = "adelie_manager";
@@ -61,6 +62,7 @@ public class ui_manager : MonoBehaviour
         rainEvent_manager = GameObject.FindGameObjectWithTag(eventManagerTag).GetComponent<RainEvent_manager>();
         nestUpgrade_manager = GameObject.FindGameObjectWithTag(eventManagerTag).GetComponent<NestUpgrade_manager>();
         adelie_Manager = GameObject.FindGameObjectWithTag(adelieManagerTag).GetComponent<adelie_manager>();
+        
     }
     public void Skill_btn(int skillNum)
     {
@@ -84,11 +86,12 @@ public class ui_manager : MonoBehaviour
             }
         }
         else if(skillNum ==2){
-            
-            if(temp >= 0)
+            temp = exp_coin - 2;
+            if (temp >= 0)
             {
+                
                 adelie_Manager.goAdelie = true;
-                exp_coin -= 1;
+                exp_coin -= 2;
                 adelie_Manager.RespawnAdelie();
             }
         }
@@ -101,7 +104,32 @@ public class ui_manager : MonoBehaviour
     {
         coin_text.text = coin.ToString();
         exp_coin_text.text = exp_coin.ToString();
-        
+        if (Application.platform == RuntimePlatform.Android)
+        {
+            if (Input.GetKeyUp(KeyCode.Escape))
+            {
+                Pause(true);
+            }
+        }
+        if(Application.platform == RuntimePlatform.WindowsEditor)
+        {
+            if (Input.GetKeyUp(KeyCode.Escape))
+            {
+                isPause = !isPause;
+                Pause(!isPause);
+            }
+        }
+    }
+    public void Pause(bool isPause)
+    {
+        if (isPause)
+        {
+            open_window();
+        }
+        else
+        {
+            close_window();
+        }
     }
     public void speed_slow()
     {
