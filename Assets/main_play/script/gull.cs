@@ -41,7 +41,7 @@ public class gull : MonoBehaviour
         {
             maxhp = 200;
             power = 10;
-            speed = 0.6f;
+            speed = 0.2f;
             adelie_push = true; //위치가 너무 이상해져서 아델리의 푸시공격 당하지 않도록 설정함.
         }
         if (transform.CompareTag("gull_b4"))

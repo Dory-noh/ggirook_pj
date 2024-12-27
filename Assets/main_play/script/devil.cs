@@ -61,7 +61,7 @@ public class devil : MonoBehaviour
         }
         else if (transform.CompareTag("enemy_pelican"))
         {
-            maxhp = 4500;
+            maxhp = 5500;
             power = 70;
             point = 550;
             speed = 0.25f;
@@ -145,14 +145,14 @@ public class devil : MonoBehaviour
             Destroy(gameObject, 0.01f);
             ui_manager.GetComponent<ui_manager>().coin += point;
             ui_manager.GetComponent<ui_manager>().count_text.text = (++ui_manager.GetComponent<ui_manager>().count).ToString();
-            ui_manager.GetComponent<ui_manager>().exp += exp;
+            ui_manager.GetComponent<ui_manager>().exp += exp*2;
             ui_manager.GetComponent<ui_manager>().exp_bar.fillAmount = (float)ui_manager.GetComponent<ui_manager>().exp / (float)ui_manager.GetComponent<ui_manager>().initExp;
             if (ui_manager.GetComponent<ui_manager>().exp_bar.fillAmount >= 1)
             {
                 ui_manager.GetComponent<ui_manager>().exp_coin++;
                 ui_manager.GetComponent<ui_manager>().level_text.text = (++ui_manager.GetComponent<ui_manager>().level).ToString();
+                ui_manager.GetComponent<ui_manager>().exp = ui_manager.GetComponent<ui_manager>().exp- ui_manager.GetComponent<ui_manager>().initExp;
                 ui_manager.GetComponent<ui_manager>().initExp *= 2;
-                ui_manager.GetComponent<ui_manager>().exp = 0;
                 ui_manager.GetComponent<ui_manager>().exp_bar.fillAmount = (float)ui_manager.GetComponent<ui_manager>().exp / (float)ui_manager.GetComponent<ui_manager>().initExp;
 
             }

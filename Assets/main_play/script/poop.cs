@@ -13,7 +13,7 @@ public class poop : MonoBehaviour
     {
         rb = transform.GetComponent<Rigidbody2D>();
         speed = 140;
-        power = 2;
+        power = 4;
         StartCoroutine(move());
     }
     IEnumerator move()

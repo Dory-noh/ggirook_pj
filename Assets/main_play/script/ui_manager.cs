@@ -66,9 +66,10 @@ public class ui_manager : MonoBehaviour
     }
     public void Skill_btn(int skillNum)
     {
-        int temp = exp_coin-1;
+        int temp;
         if(skillNum == 0)
         {
+            temp = exp_coin - 1;
             if (temp >= 0)
             {
                 nestUpgrade_manager.canUpgrade = true;
@@ -78,6 +79,7 @@ public class ui_manager : MonoBehaviour
         }
         else if (skillNum == 1) 
         {
+            temp = exp_coin - 2;
             if (temp >= 0)
             {
                 rainEvent_manager.canRain = true;
