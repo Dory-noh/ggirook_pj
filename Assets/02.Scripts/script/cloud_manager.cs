@@ -6,11 +6,11 @@ public class cloud_manager : MonoBehaviour
 {
 
     public GameObject cloud_obj;
-    int x;
+   // int x;
     // Start is called before the first frame update
     void Start()
     {
-        x = 3;
+        //x = 3;
         StartCoroutine(move_cloud());
     }
 

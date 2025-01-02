@@ -27,7 +27,7 @@ public class ani_manager : MonoBehaviour
         {
             if ((day%21 == 0&&day!=0) || day > 105)
             {
-                day_text.text = $"{day / 21}StageClear!";
+                day_text.text = $"{++day / 21}StageClear!";
                 if (day > 105)
                 {
                     GameObject.FindGameObjectWithTag("ui_manager").GetComponent<ui_manager>().open_success();
