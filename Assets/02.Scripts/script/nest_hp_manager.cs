@@ -16,7 +16,7 @@ public class nest_hp_manager : MonoBehaviour
     {
         hp_img = GameObject.FindGameObjectWithTag("nest_hp").GetComponent<Image>();
         nest_hp_text = GameObject.FindGameObjectWithTag("nest_hp_text").GetComponent<Text>();
-        Maxhp = 100;
+        Maxhp = 500;
         hp = Maxhp;
     }
 

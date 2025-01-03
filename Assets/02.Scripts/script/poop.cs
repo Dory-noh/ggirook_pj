@@ -13,7 +13,7 @@ public class poop : MonoBehaviour
     {
         rb = transform.GetComponent<Rigidbody2D>();
         speed = 140;
-        power = 4;
+        power = 8;
         StartCoroutine(move());
     }
     IEnumerator move()
@@ -37,7 +37,7 @@ public class poop : MonoBehaviour
     private IEnumerator HitReady(Collider2D col)
     {
         int count = 0;
-        while (count < 3 && col!=null)
+        while (count < 4 && col!=null)
         {
             col.transform.GetComponent<devil>().hit(power);
             yield return new WaitForSeconds(timeTerm);

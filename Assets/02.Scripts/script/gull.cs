@@ -65,9 +65,9 @@ public class gull : MonoBehaviour
         hp_img = gameObject.transform.GetComponentInChildren<Canvas>().transform.GetChild(1).GetComponent<Image>();
         if (transform.CompareTag("gull_b3"))
         {
-            targetPos = new Vector3(35.44f, origin_y, 0.35f);
+            targetPos = new Vector3(43.44f, origin_y, 0.35f);
         }
-        else targetPos = new Vector3(28.44f, origin_y, 0.35f);
+        else targetPos = new Vector3(40.44f, origin_y, 0.35f);
     }
 
     // Update is called once per frame
@@ -89,7 +89,7 @@ public class gull : MonoBehaviour
             yield return new WaitForSeconds(0.06f);
             if (ismove)
             {
-                transform.position = Vector3.SmoothDamp(transform.position, targetPos, ref velo, speed * 700f*Time.deltaTime);
+                transform.position = Vector3.SmoothDamp(transform.position, targetPos, ref velo, speed * 1200f*Time.deltaTime);
                 change_img = !change_img;
                 transform.GetChild(0).gameObject.SetActive(change_img);
                 transform.GetChild(1).gameObject.SetActive(!change_img);

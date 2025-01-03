@@ -67,7 +67,7 @@ public class devil_manager : MonoBehaviour
             float y = Random.Range(-0.5f, 2);
             GameObject devil = Instantiate(devil_prefab);
             devil.transform.name = enemy_name;
-            devil.transform.position = new Vector3(31, y, 0.35f);
+            devil.transform.position = new Vector3(41, y, 0.35f);
             yield return new WaitForSeconds(time);
             if(time > 0.5f) time -= 0.1f;
         }

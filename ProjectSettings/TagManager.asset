@@ -4,13 +4,8 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - enemy
-  - player
-  - nest
-  - nest_hp
   - ui_manager
   - exp_bar
-  - nest_hp_manager
   - left_btn
   - right_btn
   - enemy_gull
@@ -31,17 +26,15 @@ TagManager:
   - respawn_btn4
   - respawn_btn0
   - nest_hp_text
-  - login_panel
   - su_panel
-  - login_bt1
-  - login_bt2
-  - notify
-  - login_id_input
-  - login_password_input
   - LEVELTXT
   - event_manager
   - RAINBTN
   - NESTUPGRADEBTN
+  - NEST
+  - nest
+  - nest_hp
+  - nest_hp_manager
   layers:
   - Default
   - TransparentFX

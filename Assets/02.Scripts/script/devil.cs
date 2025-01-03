@@ -40,38 +40,39 @@ public class devil : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        ui_manager = GameObject.FindGameObjectWithTag("ui_manager");
         adelie_push = false;
         ismove = true;
         origin_y = transform.position.y;
         if (transform.CompareTag("enemy_gull"))
         {
-            maxhp = 50;
-            power = 6;
+            maxhp = 50 + (ui_manager.GetComponent<ui_manager>().level-1) * 3; ;
+            power = 6 + (ui_manager.GetComponent<ui_manager>().level - 1);
             point = 35;
             speed = 0.15f;
-            exp = 3;
+            exp = 3 + (ui_manager.GetComponent<ui_manager>().level - 1) * 5; ;
         }
         else if (transform.CompareTag("enemy_fox"))
         {
-            maxhp = 1500;
-            power = 40;
-            point = 260;
+            maxhp = 1500 + (ui_manager.GetComponent<ui_manager>().level - 1) * 10; ;
+            power = 40 + (ui_manager.GetComponent<ui_manager>().level - 1) * 2; ;
+            point = 260 + (ui_manager.GetComponent<ui_manager>().level - 1) * 10; ;
             speed = 0.4f;
-            exp = 40;
+            exp = 150 + (ui_manager.GetComponent<ui_manager>().level - 1) * 2; ;
         }
         else if (transform.CompareTag("enemy_pelican"))
         {
-            maxhp = 5500;
-            power = 70;
-            point = 550;
+            maxhp = 5500 + (ui_manager.GetComponent<ui_manager>().level - 1) * 50;
+            power = 70 + (ui_manager.GetComponent<ui_manager>().level - 1) *3;
+            point = 1000 + (ui_manager.GetComponent<ui_manager>().level - 1) * 10;
             speed = 0.25f;
-            exp = 78;
+            exp = 250 + (ui_manager.GetComponent<ui_manager>().level - 1) * 5;
         }
         hp = maxhp;
         e_State = EnemyState.Move;
         nest = GameObject.FindGameObjectWithTag("nest");
         nest_hp_manager = GameObject.FindGameObjectWithTag("nest_hp_manager");
-        ui_manager = GameObject.FindGameObjectWithTag("ui_manager");
+        
         rainEvent_Manager = GameObject.FindGameObjectWithTag("event_manager").GetComponent<RainEvent_manager>();
         nestUpgrade_Manager = GameObject.FindGameObjectWithTag("event_manager").GetComponent<NestUpgrade_manager>();
         change_img = true;
@@ -113,7 +114,7 @@ public class devil : MonoBehaviour
             yield return new WaitForSeconds(0.06f);
             if (ismove)
             {
-                transform.position = Vector3.SmoothDamp(transform.position, targetPos, ref velo, speed * 700f * Time.deltaTime);
+                transform.position = Vector3.SmoothDamp(transform.position, targetPos, ref velo, speed * 800f * Time.deltaTime);
                 change_img = !change_img;
                 transform.GetChild(0).gameObject.SetActive(change_img);
                 transform.GetChild(1).gameObject.SetActive(!change_img);
@@ -145,7 +146,7 @@ public class devil : MonoBehaviour
             Destroy(gameObject, 0.01f);
             ui_manager.GetComponent<ui_manager>().coin += point;
             ui_manager.GetComponent<ui_manager>().count_text.text = (++ui_manager.GetComponent<ui_manager>().count).ToString();
-            ui_manager.GetComponent<ui_manager>().exp += exp*2;
+            ui_manager.GetComponent<ui_manager>().exp += exp*4;
             ui_manager.GetComponent<ui_manager>().exp_bar.fillAmount = (float)ui_manager.GetComponent<ui_manager>().exp / (float)ui_manager.GetComponent<ui_manager>().initExp;
             if (ui_manager.GetComponent<ui_manager>().exp_bar.fillAmount >= 1)
             {

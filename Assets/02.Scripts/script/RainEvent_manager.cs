@@ -26,7 +26,7 @@ public class RainEvent_manager : MonoBehaviour
         if(canRain == true)
         {
             canRain = false;
-            for (int i = 0; i < ui_manager.instance.level+1; i++)
+            for (int i = 0; i < 4; i++)
                 StartCoroutine(DropRain());
         }
         
@@ -34,11 +34,11 @@ public class RainEvent_manager : MonoBehaviour
     IEnumerator DropRain()
     {
         float time = Random.Range(0, 0.1f);
-        for (int i = 0; i < 30; i++)
+        for (int i = 0; i < 50; i++)
         {
             float x = 0, y = 0;
 
-            x = Random.Range(-10, 30);
+            x = Random.Range(-10, 40);
             y = Random.Range(10, 20);
             Vector2 pos = new Vector2(x, y);
             GameObject rain = Instantiate(rain_prefab);
