@@ -25,10 +25,16 @@ public class ani_manager : MonoBehaviour
     {
         while (true)
         {
-            if ((day%21 == 0&&day!=0) || day > 105)
+            if ((day%21 == 0&&day!=0) || day > 1000)
             {
-                day_text.text = $"{++day / 21}StageClear!";
-                if (day > 105)
+                obj.transform.GetComponent<Animation>().Play();
+                day_text.text = $"<color=#ffff00>{day++ / 21} StageClear!</color>";
+                yield return new WaitForSeconds(1f);
+                day_text.text = "Day " + (day).ToString();
+                yield return new WaitForSeconds(19f);
+                obj.transform.GetComponent<Animation>().Rewind();
+                
+                if (day > 1000)
                 {
                     GameObject.FindGameObjectWithTag("ui_manager").GetComponent<ui_manager>().open_success();
                     day_text.text = "¼º°ø~!";
@@ -38,7 +44,7 @@ public class ani_manager : MonoBehaviour
             else
             {
                 obj.transform.GetComponent<Animation>().Play();
-                day_text.text = "Day " + (++day%21+1).ToString()+" / 21";
+                day_text.text = "Day " + (++day).ToString();
                 yield return new WaitForSeconds(20f);
                 obj.transform.GetComponent<Animation>().Rewind();
             }

@@ -23,6 +23,7 @@ public class ui_manager : MonoBehaviour
     public GameObject window_img;
     public GameObject success_img;
     public GameObject fail_img;
+    public Text scoreTxt;
     public Text coin_text;
     public int coin;
     public Text exp_coin_text;
@@ -42,6 +43,7 @@ public class ui_manager : MonoBehaviour
     [SerializeField]private RainEvent_manager rainEvent_manager;
     [SerializeField]private NestUpgrade_manager nestUpgrade_manager;
     [SerializeField] private adelie_manager adelie_Manager;
+    [SerializeField] private ani_manager ani_manager;
     // Start is called before the first frame update
     void Start()
     {
@@ -62,7 +64,8 @@ public class ui_manager : MonoBehaviour
         rainEvent_manager = GameObject.FindGameObjectWithTag(eventManagerTag).GetComponent<RainEvent_manager>();
         nestUpgrade_manager = GameObject.FindGameObjectWithTag(eventManagerTag).GetComponent<NestUpgrade_manager>();
         adelie_Manager = GameObject.FindGameObjectWithTag(adelieManagerTag).GetComponent<adelie_manager>();
-        
+        scoreTxt = fail_img.transform.GetChild(0).GetChild(1).GetComponent<Text>();
+        ani_manager = GameObject.FindWithTag("ani_manager").GetComponent<ani_manager>();
     }
     public void Skill_btn(int skillNum)
     {
@@ -163,6 +166,7 @@ public class ui_manager : MonoBehaviour
     public void open_fail()
     {
         Time.timeScale = 0;
+        scoreTxt.text = $"Score: {count} Day: {ani_manager.day}";
         fail_img.SetActive(true);
     }
     public void close_fail()

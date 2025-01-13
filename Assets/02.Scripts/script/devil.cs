@@ -30,6 +30,7 @@ public class devil : MonoBehaviour
     int point;
     float speed;
     int exp;
+    bool isNestAttack = false;
     //public bool time_changer;
     float origin_y;
     Vector3 velo = Vector3.zero;
@@ -118,8 +119,6 @@ public class devil : MonoBehaviour
                 change_img = !change_img;
                 transform.GetChild(0).gameObject.SetActive(change_img);
                 transform.GetChild(1).gameObject.SetActive(!change_img);
-
-                //if(Vector3.Distance(gull.transform.position,))
             }
             else
             {
@@ -131,8 +130,6 @@ public class devil : MonoBehaviour
     public void hit(int power)
     {
         StartCoroutine(damage(power)); //devil의 데미지를 깎는 함수
-
-
     }
 
     IEnumerator damage(int power)
@@ -180,15 +177,16 @@ public class devil : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D col)
     {
+        
         if (col.gameObject.CompareTag("nest"))
         {
+            ismove = false;
+            if (!isNestAttack)
+            {
+                isNestAttack = true;
+                StartCoroutine(AttackNest());
+            }
             
-            nest_hp_manager.GetComponent<nest_hp_manager>().hp -= power;
-            nest_hp_manager.GetComponent<nest_hp_manager>().hp = Mathf.Clamp(nest_hp_manager.GetComponent<nest_hp_manager>().hp,0, 100);
-            transform.GetChild(0).gameObject.SetActive(false);
-            transform.GetChild(1).gameObject.SetActive(false);
-            transform.GetChild(2).gameObject.SetActive(true);
-            StartCoroutine(wait());
         }
         if (col.gameObject.tag.StartsWith("gull"))
         {
@@ -199,6 +197,16 @@ public class devil : MonoBehaviour
             transform.GetChild(2).gameObject.SetActive(true);
         }
         StartCoroutine(wait());
+    }
+    IEnumerator AttackNest()
+    {
+        nest_hp_manager.GetComponent<nest_hp_manager>().hp -= power;
+        nest_hp_manager.GetComponent<nest_hp_manager>().hp = Mathf.Clamp(nest_hp_manager.GetComponent<nest_hp_manager>().hp, 0, nest_hp_manager.GetComponent<nest_hp_manager>().Maxhp);
+        transform.GetChild(0).gameObject.SetActive(false);
+        transform.GetChild(1).gameObject.SetActive(false);
+        transform.GetChild(2).gameObject.SetActive(true);
+        yield return new WaitForSeconds(0.3f);
+        isNestAttack = false;
     }
     IEnumerator wait()
     {
