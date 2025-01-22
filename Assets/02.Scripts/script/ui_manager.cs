@@ -166,7 +166,7 @@ public class ui_manager : MonoBehaviour
     public void open_fail()
     {
         Time.timeScale = 0;
-        scoreTxt.text = $"(x_x): {count} Day: {ani_manager.day}";
+        scoreTxt.text = $"< (x_x): {count.ToString("0000") } Day: {ani_manager.day.ToString("000")} >";
         fail_img.SetActive(true);
     }
     public void close_fail()
