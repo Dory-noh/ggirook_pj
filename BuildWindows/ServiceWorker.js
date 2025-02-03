@@ -1,4 +1,4 @@
-const cacheName = "DoryGGiGGi-ggirook_pj-0.1";
+const cacheName = "DoryGGiGGi-ggirook_pj-0.11";
 const contentToCache = [
     "Build/BuildWindows.loader.js",
     "Build/BuildWindows.framework.js",
