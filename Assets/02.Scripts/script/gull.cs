@@ -65,21 +65,18 @@ public class gull : MonoBehaviour
         hp_img = gameObject.transform.GetComponentInChildren<Canvas>().transform.GetChild(1).GetComponent<Image>();
         if (transform.CompareTag("gull_b3"))
         {
-            targetPos = new Vector3(43.44f, origin_y, 0.35f);
+            targetPos = new Vector3(50.44f, origin_y, 0.35f);
         }
-        else targetPos = new Vector3(40.44f, origin_y, 0.35f);
+        else targetPos = new Vector3(45.44f, origin_y, 0.35f);
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(transform.CompareTag("gull_b3"))
-        {
             if ((targetPos.x - gameObject.transform.position.x) < 2.0f)
             {
                 Destroy(gameObject);
             }
-        }
     }
 
     IEnumerator move()

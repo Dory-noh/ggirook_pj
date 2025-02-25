@@ -24,7 +24,7 @@ public class adelie : MonoBehaviour
         nest_hp_manager = GameObject.FindGameObjectWithTag("nest_hp_manager");
         StartCoroutine(Move());
         y = Random.Range(-0.5f, 2);
-        pos = new Vector3(42, y, 0.35f);
+        pos = new Vector3(50, y, 0.35f);
     }
 
     // Update is called once per frame

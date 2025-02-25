@@ -24,9 +24,9 @@ public class cloud_manager : MonoBehaviour
         cloud_obj.transform.position = new Vector3(-24.74f, 4.04f, -4.745f);
         while (true)
         {
-            cloud_obj.transform.position = Vector3.Lerp(cloud_obj.transform.position, new Vector3(35f, 4.04f, -4.745f), 0.03f * 5f);
+            cloud_obj.transform.position = Vector3.Lerp(cloud_obj.transform.position, new Vector3(60f, 4.04f, -4.745f), 0.03f * 5f);
             yield return new WaitForSeconds(0.3f);
-            if(Vector3.Distance (cloud_obj.transform.position,new Vector3(35f, 4.04f, -4.745f))< 3f) cloud_obj.transform.position = new Vector3(-24.74f, 4.04f, -4.745f);
+            if(Vector3.Distance (cloud_obj.transform.position,new Vector3(60f, 4.04f, -4.745f))< 3f) cloud_obj.transform.position = new Vector3(-24.74f, 4.04f, -4.745f);
         }
         
     }
