@@ -91,18 +91,12 @@ public class gull : MonoBehaviour
                 walkAni.Play();
                 //if(Vector3.Distance(gull.transform.position,))
             }
-            else
-            {
-
-            }
 
         }
     }
     public void hit(int power)
     {
         StartCoroutine(damage(power)); //gull의 데미지를 깎는 함수
-        
-        
     }
 
     IEnumerator damage(int power)
