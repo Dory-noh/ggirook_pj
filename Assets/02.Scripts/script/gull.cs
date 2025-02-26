@@ -19,10 +19,11 @@ public class gull : MonoBehaviour
     Vector3 targetPos;
     public int respawn_time;//소환까지 걸리는 시간
     float origin_y;
-    
 
+    public Animation walkAni;
     void Start()
     {
+        walkAni = GetComponent<Animation>();
         adelie_push = false;
         origin_y = transform.position.y;
         if (transform.CompareTag("gull_b1"))
@@ -87,9 +88,7 @@ public class gull : MonoBehaviour
             if (ismove)
             {
                 transform.position = Vector3.SmoothDamp(transform.position, targetPos, ref velo, speed * 1200f*Time.deltaTime);
-                change_img = !change_img;
-                transform.GetChild(0).gameObject.SetActive(change_img);
-                transform.GetChild(1).gameObject.SetActive(!change_img);
+                walkAni.Play();
                 //if(Vector3.Distance(gull.transform.position,))
             }
             else
@@ -126,9 +125,6 @@ public class gull : MonoBehaviour
         transform.position = new Vector3(transform.position.x + 0.2f, origin_y, transform.position.z);
         yield return new WaitForSeconds(0.3f);
         ismove = true;
-        transform.GetChild(0).gameObject.SetActive(false);
-        transform.GetChild(1).gameObject.SetActive(true);
-        transform.GetChild(2).gameObject.SetActive(false);
     }
 
     private void OnTriggerEnter2D(Collider2D col)

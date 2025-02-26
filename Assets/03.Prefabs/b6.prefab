@@ -433,6 +433,7 @@ GameObject:
   - component: {fileID: 5070532224517034817}
   - component: {fileID: 1215828680094054930}
   - component: {fileID: 4455797217610021379}
+  - component: {fileID: 8979999321818647732}
   m_Layer: 9
   m_Name: b6
   m_TagString: gull_b3
@@ -519,6 +520,7 @@ MonoBehaviour:
   adelie_push: 0
   hp_img: {fileID: 0}
   respawn_time: 0
+  walkAni: {fileID: 0}
 --- !u!114 &4455797217610021379
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -532,6 +534,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   poop_prefab: {fileID: 316358554757211139, guid: 9657e49169069ee42beb1f03a96ece21, type: 3}
+--- !u!111 &8979999321818647732
+Animation:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5806080643642393233}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Animation: {fileID: 7400000, guid: bed6b7e697c9faf48ad2438ec008db66, type: 2}
+  m_Animations:
+  - {fileID: 7400000, guid: bed6b7e697c9faf48ad2438ec008db66, type: 2}
+  m_WrapMode: 0
+  m_PlayAutomatically: 0
+  m_AnimatePhysics: 0
+  m_CullingType: 0
 --- !u!1 &6155872656024927507
 GameObject:
   m_ObjectHideFlags: 0

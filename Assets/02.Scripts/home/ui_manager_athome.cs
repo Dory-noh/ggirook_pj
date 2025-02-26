@@ -17,12 +17,13 @@ public class ui_manager_athome : MonoBehaviour
     }
     public void play_main_game()
     {
+        Time.timeScale = 1f;
         SceneManager.LoadScene(1);
     }
     public void quit_game()
     {
-        PlayerPrefs.DeleteKey("Username");
-        PlayerPrefs.Save();
+        //PlayerPrefs.DeleteKey("Username");
+        //PlayerPrefs.Save();
         Application.Quit();
     }
 }

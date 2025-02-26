@@ -24,18 +24,6 @@ public class bird_manager : MonoBehaviour
         time_space = 0;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        for (int i = 0; i < gullNames.Length; i++) {
-            if (gull_prefab.transform.CompareTag(gullNames[i]))
-            {
-                time = respawnTimes[i];
-                break;
-            }
-        }
-        
-    }
 
     IEnumerator respawn_gull()
     {
@@ -51,6 +39,15 @@ public class bird_manager : MonoBehaviour
         int temp = coin - price;
         if (temp >= 0 && is_respawn[gull_num])
         {
+            for (int i = 0; i < gullNames.Length; i++)
+            {
+                if (gull_prefab.transform.CompareTag(gullNames[i]))
+                {
+                    time = respawnTimes[i];
+                    break;
+                }
+            }
+
             StartCoroutine(fill_btn_img());
             is_respawn[gull_num] = false;
             ui_manager.GetComponent<ui_manager>().coin = temp;
@@ -63,11 +60,15 @@ public class bird_manager : MonoBehaviour
     {
         respawn_btn_img.fillAmount = 0;
         time_space = 0;
+        yield return null;
         while (respawn_btn_img.fillAmount < 1)
         {
-            respawn_btn_img.fillAmount = time_space / (float)time;
-            time_space += Time.deltaTime;
-            yield return new WaitForSecondsRealtime(0.001f);
+            if(Time.deltaTime > 0.00001f)
+            {
+                time_space += Time.deltaTime;
+                respawn_btn_img.fillAmount = time_space / (float)time;
+            }
+            yield return null;
         }
     }
 }

@@ -8,12 +8,11 @@ public class ani_manager : MonoBehaviour
     public GameObject obj;
     public Text day_text;
     public int day;
-    public bool EndlessMode = false;
     // Start is called before the first frame update
     void Start()
     {
         day = 0;
-        if(EndlessMode) day_text.text = "Day 1";
+        if(GameManager.instance.EndlessMode) day_text.text = "Day 1";
         else day_text.text = "Day 1 / 21";
         StartCoroutine(sun_ani());
     }
@@ -27,7 +26,7 @@ public class ani_manager : MonoBehaviour
     {
         while (true)
         {
-            if (EndlessMode)
+            if (GameManager.instance.EndlessMode)
             {
                 if ((day % 21 == 0 && day != 0) || day > 1000)
                 {

@@ -16,7 +16,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &5240030077078342930
 Transform:
   m_ObjectHideFlags: 0
@@ -180,6 +180,7 @@ GameObject:
   - component: {fileID: 7338154589077029745}
   - component: {fileID: 3699699321188016210}
   - component: {fileID: 6935187593618467141}
+  - component: {fileID: 8186389498040238489}
   m_Layer: 0
   m_Name: devil_pelican
   m_TagString: enemy_pelican
@@ -225,6 +226,7 @@ MonoBehaviour:
   devil_cc: {fileID: 0}
   ui_manager: {fileID: 0}
   hp: 0
+  walkAni: {fileID: 0}
   damage_text: {fileID: 0}
   rainEvent_Manager: {fileID: 0}
   nestUpgrade_Manager: {fileID: 0}
@@ -300,6 +302,22 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 7
+--- !u!111 &8186389498040238489
+Animation:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4532139049766059266}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Animation: {fileID: 7400000, guid: 8b8acfa4de99ac742a30ceb7e85aa559, type: 2}
+  m_Animations:
+  - {fileID: 7400000, guid: 8b8acfa4de99ac742a30ceb7e85aa559, type: 2}
+  m_WrapMode: 0
+  m_PlayAutomatically: 0
+  m_AnimatePhysics: 0
+  m_CullingType: 0
 --- !u!1 &5548835775421819112
 GameObject:
   m_ObjectHideFlags: 0

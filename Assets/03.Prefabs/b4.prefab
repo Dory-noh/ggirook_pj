@@ -441,6 +441,7 @@ GameObject:
   - component: {fileID: 113505026718755203}
   - component: {fileID: 2660104636137403645}
   - component: {fileID: 2930960046037255046}
+  - component: {fileID: 3237414241783040770}
   m_Layer: 9
   m_Name: b4
   m_TagString: gull_b4
@@ -482,6 +483,7 @@ MonoBehaviour:
   adelie_push: 0
   hp_img: {fileID: 0}
   respawn_time: 0
+  walkAni: {fileID: 0}
 --- !u!61 &2930960046037255046
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -527,6 +529,22 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1.5, y: 3}
   m_EdgeRadius: 0
+--- !u!111 &3237414241783040770
+Animation:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5820829119572058206}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Animation: {fileID: 7400000, guid: 438102c469c0e6540a6c4145407b4be4, type: 2}
+  m_Animations:
+  - {fileID: 7400000, guid: 438102c469c0e6540a6c4145407b4be4, type: 2}
+  m_WrapMode: 0
+  m_PlayAutomatically: 0
+  m_AnimatePhysics: 0
+  m_CullingType: 0
 --- !u!1 &5831934657651242973
 GameObject:
   m_ObjectHideFlags: 0

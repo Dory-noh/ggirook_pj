@@ -96,6 +96,7 @@ GameObject:
   - component: {fileID: 119880346804361109}
   - component: {fileID: 5923155143136025406}
   - component: {fileID: 1993218219269470849}
+  - component: {fileID: 3071527698460472842}
   m_Layer: 0
   m_Name: devil_fox
   m_TagString: enemy_fox
@@ -141,6 +142,7 @@ MonoBehaviour:
   devil_cc: {fileID: 0}
   ui_manager: {fileID: 0}
   hp: 0
+  walkAni: {fileID: 0}
   damage_text: {fileID: 0}
   rainEvent_Manager: {fileID: 0}
   nestUpgrade_Manager: {fileID: 0}
@@ -216,6 +218,22 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 4, y: 5}
   m_EdgeRadius: 0
+--- !u!111 &3071527698460472842
+Animation:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3628037025467685591}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Animation: {fileID: 7400000, guid: 1141dadf3cea89948b58a7166de75964, type: 2}
+  m_Animations:
+  - {fileID: 7400000, guid: 1141dadf3cea89948b58a7166de75964, type: 2}
+  m_WrapMode: 0
+  m_PlayAutomatically: 0
+  m_AnimatePhysics: 0
+  m_CullingType: 0
 --- !u!1 &5571730749049696788
 GameObject:
   m_ObjectHideFlags: 0

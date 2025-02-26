@@ -35,12 +35,14 @@ public class devil : MonoBehaviour
     float origin_y;
     Vector3 velo = Vector3.zero;
     Vector3 targetPos;
+    public Animation walkAni;
     public Text damage_text;
     public RainEvent_manager rainEvent_Manager;
     public NestUpgrade_manager nestUpgrade_Manager;
     // Start is called before the first frame update
     void Start()
     {
+        walkAni = GetComponent<Animation>();
         ui_manager = GameObject.FindGameObjectWithTag("ui_manager");
         adelie_push = false;
         ismove = true;
@@ -117,12 +119,7 @@ public class devil : MonoBehaviour
             {
                 transform.position = Vector3.SmoothDamp(transform.position, targetPos, ref velo, speed * 800f * Time.deltaTime);
                 change_img = !change_img;
-                transform.GetChild(0).gameObject.SetActive(change_img);
-                transform.GetChild(1).gameObject.SetActive(!change_img);
-            }
-            else
-            {
-
+                walkAni.Play();
             }
 
         }
@@ -169,9 +166,9 @@ public class devil : MonoBehaviour
         transform.position = new Vector3(transform.position.x - 0.2f, origin_y, transform.position.z);
         yield return new WaitForSeconds(0.3f);
         ismove = true;
-        transform.GetChild(0).gameObject.SetActive(false);
-        transform.GetChild(1).gameObject.SetActive(true);
-        transform.GetChild(2).gameObject.SetActive(false);
+        //transform.GetChild(0).gameObject.SetActive(false);
+        //transform.GetChild(1).gameObject.SetActive(true);
+        //transform.GetChild(2).gameObject.SetActive(false);
 
     }
 
