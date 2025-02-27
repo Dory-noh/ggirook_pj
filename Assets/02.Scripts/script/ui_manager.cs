@@ -82,7 +82,7 @@ public class ui_manager : MonoBehaviour
         }
         else if (skillNum == 1) 
         {
-            temp = exp_coin - 2;
+            temp = exp_coin - 3;
             if (temp >= 0)
             {
                 rainEvent_manager.canRain = true;

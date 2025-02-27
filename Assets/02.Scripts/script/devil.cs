@@ -26,7 +26,6 @@ public class devil : MonoBehaviour
     public int hp;
     Vector3 dir;
     bool ismove;
-    bool change_img;
     int point;
     float speed;
     int exp;
@@ -78,9 +77,6 @@ public class devil : MonoBehaviour
         
         rainEvent_Manager = GameObject.FindGameObjectWithTag("event_manager").GetComponent<RainEvent_manager>();
         nestUpgrade_Manager = GameObject.FindGameObjectWithTag("event_manager").GetComponent<NestUpgrade_manager>();
-        change_img = true;
-        transform.GetChild(0).gameObject.SetActive(change_img);
-        transform.GetChild(1).gameObject.SetActive(!change_img);
         StartCoroutine(Move());
         targetPos = new Vector3(nest.transform.position.x + 2, (nest.transform.position.y + 0.3f * origin_y), 0.35f);
         hp_img = gameObject.transform.GetComponentInChildren<Canvas>().transform.GetChild(1).GetComponent<Image>();
@@ -118,7 +114,7 @@ public class devil : MonoBehaviour
             if (ismove)
             {
                 transform.position = Vector3.SmoothDamp(transform.position, targetPos, ref velo, speed * 800f * Time.deltaTime);
-                change_img = !change_img;
+                transform.GetChild(2).gameObject.SetActive(false);
                 walkAni.Play();
             }
 
@@ -166,10 +162,6 @@ public class devil : MonoBehaviour
         transform.position = new Vector3(transform.position.x - 0.2f, origin_y, transform.position.z);
         yield return new WaitForSeconds(0.3f);
         ismove = true;
-        //transform.GetChild(0).gameObject.SetActive(false);
-        //transform.GetChild(1).gameObject.SetActive(true);
-        //transform.GetChild(2).gameObject.SetActive(false);
-
     }
 
     private void OnTriggerEnter2D(Collider2D col)
@@ -192,6 +184,7 @@ public class devil : MonoBehaviour
             transform.GetChild(0).gameObject.SetActive(false);
             transform.GetChild(1).gameObject.SetActive(false);
             transform.GetChild(2).gameObject.SetActive(true);
+           
         }
         StartCoroutine(wait());
     }
@@ -209,15 +202,4 @@ public class devil : MonoBehaviour
     {
         yield return new WaitForSeconds(0.3f);
     }
-    //IEnumerator wait2()
-    //{
-    //    yield return new WaitForSeconds(1f);
-    //    adelie_push = false;
-    //}
-    //public void wait_adelie()
-    //{
-    //    StartCoroutine(wait2());
-
-    //}
-
 }
