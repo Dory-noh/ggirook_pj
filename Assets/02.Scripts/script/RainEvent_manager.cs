@@ -6,6 +6,7 @@ using UnityEngine.UI;
 
 public class RainEvent_manager : MonoBehaviour
 {
+    int poop_num = 9;
     public GameObject rain_prefab;
     public Button rain_btn;
     public bool canRain = false;
@@ -41,7 +42,7 @@ public class RainEvent_manager : MonoBehaviour
             x = Random.Range(-10, 40);
             y = Random.Range(10, 20);
             Vector2 pos = new Vector2(x, y);
-            GameObject rain = Instantiate(rain_prefab);
+            GameObject rain = poolingManager.Instance.GetPooledObj(poop_num);
             rain.transform.position = pos;
         }
         yield return new WaitForSeconds(time);

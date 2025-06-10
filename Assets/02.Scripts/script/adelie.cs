@@ -15,7 +15,7 @@ public class adelie : MonoBehaviour
     public Vector3 targetPos;
     float y = 0;
     // Start is called before the first frame update
-    void Start()
+    void OnEnable()
     {
         rb = GetComponent<Rigidbody2D>();
         adelie_manager = GameObject.FindGameObjectWithTag("adelie_manager");
@@ -39,7 +39,7 @@ public class adelie : MonoBehaviour
             yield return new WaitForSeconds(speed);
             transform.position = Vector3.Lerp(transform.position, pos, 0.01f * 2f);
             //rb.AddForce(Vector2.right);
-            if (Vector3.Distance(transform.position, pos) < 3) Destroy(gameObject);
+            if (Vector3.Distance(transform.position, pos) < 3) poolingManager.Instance.ReturnPooledObj(gameObject);
             //change_img = !change_img;
             //transform.GetChild(0).gameObject.SetActive(change_img);
             //transform.GetChild(1).gameObject.SetActive(!change_img);

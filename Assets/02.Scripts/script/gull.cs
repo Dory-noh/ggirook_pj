@@ -21,7 +21,8 @@ public class gull : MonoBehaviour
     float origin_y;
 
     public Animation walkAni;
-    void Start()
+
+    private void OnEnable() 
     {
         walkAni = GetComponent<Animation>();
         adelie_push = false;
@@ -61,23 +62,14 @@ public class gull : MonoBehaviour
         ismove = true;
         StartCoroutine(move());
         change_img = true;
-        transform.GetChild(0).gameObject.SetActive(change_img);
-        transform.GetChild(1).gameObject.SetActive(!change_img);
+        //transform.GetChild(0).gameObject.SetActive(change_img);
+        //transform.GetChild(1).gameObject.SetActive(!change_img);
         hp_img = gameObject.transform.GetComponentInChildren<Canvas>().transform.GetChild(1).GetComponent<Image>();
         if (transform.CompareTag("gull_b3"))
         {
             targetPos = new Vector3(50.44f, origin_y, 0.35f);
         }
         else targetPos = new Vector3(45.44f, origin_y, 0.35f);
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-            if ((targetPos.x - gameObject.transform.position.x) < 2.0f)
-            {
-                Destroy(gameObject);
-            }
     }
 
     IEnumerator move()
@@ -88,15 +80,29 @@ public class gull : MonoBehaviour
             if (ismove)
             {
                 transform.position = Vector3.SmoothDamp(transform.position, targetPos, ref velo, speed * 1200f*Time.deltaTime);
-                walkAni.Play();
+                if (walkAni.isPlaying == false)
+                {
+                    Debug.Log("갈매기 걷기");
+                    walkAni.Play();
+                }
                 //if(Vector3.Distance(gull.transform.position,))
+                if ((targetPos.x - gameObject.transform.position.x) < 2.0f)
+                {
+                    Debug.Log("갈매기가 사라집니다.");
+                    StartCoroutine(DelayedReturn());
+                }
+            }
+            else
+            {
+                if(walkAni.isPlaying) walkAni.Stop();
             }
 
         }
     }
     public void hit(int power)
     {
-        StartCoroutine(damage(power)); //gull의 데미지를 깎는 함수
+        if (gameObject.activeSelf == true)
+            StartCoroutine(damage(power)); //gull의 데미지를 깎는 함수
     }
 
     IEnumerator damage(int power)
@@ -104,7 +110,7 @@ public class gull : MonoBehaviour
         yield return new WaitForSeconds(0.1f);
         hp -= power;
         hp = Mathf.Clamp(hp, 0, maxhp);
-        if (hp <= 0) Destroy(gameObject, 0.01f);
+        if (hp <= 0) StartCoroutine(DelayedReturn());
         hp_img.fillAmount = (float)hp / (float)maxhp;
         if (hp_img.fillAmount <= 0.3f)
         {
@@ -121,15 +127,27 @@ public class gull : MonoBehaviour
         ismove = true;
     }
 
+    IEnumerator DelayedReturn()
+    {
+        yield return new WaitForSeconds(0.01f); // 0.01초 대기
+        poolingManager.Instance.ReturnPooledObj(gameObject);
+        hp = maxhp;
+        hp_img.fillAmount = (float)hp / (float)maxhp;
+        hp_img.color = Color.green;
+    }
+
     private void OnTriggerEnter2D(Collider2D col)
     {
         if (col.gameObject.tag.StartsWith("enemy"))
         {
             ismove = false;
             col.transform.GetComponent<devil>().hit(power);
-            transform.GetChild(0).gameObject.SetActive(false);
-            transform.GetChild(1).gameObject.SetActive(false);
-            transform.GetChild(2).gameObject.SetActive(true);
+            if (!transform.CompareTag("gull_b3"))
+            {
+                transform.GetChild(0).gameObject.SetActive(false);
+                transform.GetChild(1).gameObject.SetActive(false);
+                transform.GetChild(2).gameObject.SetActive(true);
+            }
         }
 
         StartCoroutine(wait());

@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class poop_manager : MonoBehaviour
 {
-    public GameObject poop_prefab;
+    int poop_num = 9;
+    //public GameObject poop_prefab;
     // Start is called before the first frame update
     void Start()
     {
@@ -21,7 +22,7 @@ public class poop_manager : MonoBehaviour
         while (true)
         {
             yield return new WaitForSeconds(0.8f);
-            GameObject poop = Instantiate(poop_prefab);
+            GameObject poop = poolingManager.Instance.GetPooledObj(poop_num);
             poop.transform.SetParent(transform);
             poop.transform.localPosition = new Vector3(0,4.708f,0);
         }

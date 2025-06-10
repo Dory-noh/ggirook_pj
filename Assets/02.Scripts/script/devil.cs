@@ -9,14 +9,14 @@ public class devil : MonoBehaviour
 {
     public Image hp_img;
     public bool adelie_push;
-    enum EnemyState
+    /*enum EnemyState
     {
         Move,
         Attack,
         Damaged,
         Die
     }
-    EnemyState e_State;
+    EnemyState e_State;*/
     public GameObject nest;
     public GameObject nest_hp_manager;
     public CharacterController devil_cc;
@@ -38,8 +38,9 @@ public class devil : MonoBehaviour
     public Text damage_text;
     public RainEvent_manager rainEvent_Manager;
     public NestUpgrade_manager nestUpgrade_Manager;
+
     // Start is called before the first frame update
-    void Start()
+    void OnEnable()
     {
         walkAni = GetComponent<Animation>();
         ui_manager = GameObject.FindGameObjectWithTag("ui_manager");
@@ -71,7 +72,7 @@ public class devil : MonoBehaviour
             exp = 250 + (ui_manager.GetComponent<ui_manager>().level - 1) * 5;
         }
         hp = maxhp;
-        e_State = EnemyState.Move;
+        //e_State = EnemyState.Move;
         nest = GameObject.FindGameObjectWithTag("nest");
         nest_hp_manager = GameObject.FindGameObjectWithTag("nest_hp_manager");
         
@@ -85,7 +86,7 @@ public class devil : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        if (gameObject.transform.position.x > 49.25f) StartCoroutine(DelayedReturn());
         if (transform.CompareTag("enemy_gull"))
         {
             damage_text.text = hp.ToString();
@@ -115,14 +116,28 @@ public class devil : MonoBehaviour
             {
                 transform.position = Vector3.SmoothDamp(transform.position, targetPos, ref velo, speed * 800f * Time.deltaTime);
                 transform.GetChild(2).gameObject.SetActive(false);
-                walkAni.Play();
+                if(walkAni.isPlaying == false) walkAni.Play();
             }
-
+            else
+            {
+                if(walkAni.isPlaying) walkAni.Stop();
+            }
         }
     }
     public void hit(int power)
     {
-        StartCoroutine(damage(power)); //devil의 데미지를 깎는 함수
+        if(gameObject.activeSelf == true)
+            StartCoroutine(damage(power)); //devil의 데미지를 깎는 함수
+    }
+
+    IEnumerator DelayedReturn()
+    {
+        yield return new WaitForSeconds(0.01f); // 0.01초 대기
+
+        poolingManager.Instance.ReturnPooledObj(gameObject);
+        hp = maxhp;
+        hp_img.fillAmount = (float)hp / (float)maxhp;
+        hp_img.color = Color.green;
     }
 
     IEnumerator damage(int power)
@@ -133,7 +148,8 @@ public class devil : MonoBehaviour
         hp = Mathf.Clamp(hp, 0, maxhp);
         if (hp <= 0) //죽음
         {
-            Destroy(gameObject, 0.01f);
+            //Destroy(gameObject, 0.01f);
+            StartCoroutine(DelayedReturn());
             ui_manager.GetComponent<ui_manager>().coin += point;
             ui_manager.GetComponent<ui_manager>().count_text.text = (++ui_manager.GetComponent<ui_manager>().count).ToString();
             ui_manager.GetComponent<ui_manager>().exp += exp*4;

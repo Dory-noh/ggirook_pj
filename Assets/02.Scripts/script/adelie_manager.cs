@@ -11,6 +11,7 @@ public class adelie_manager : MonoBehaviour
     public int dir;
     public List<Vector3> pos = new List<Vector3>();
     public bool goAdelie = false;
+    int adeli_num = 8;
     // Start is called before the first frame update
     void Start()
     {
@@ -41,7 +42,7 @@ public class adelie_manager : MonoBehaviour
             //int time = Random.Range(10, 40);
             float y = Random.Range(-0.5f, 2);
             //dir = Random.Range(0, 2); //0:좌 / 1:우 위치에 배치
-            GameObject adelie = Instantiate(adelie_prefab);
+            GameObject adelie = poolingManager.Instance.GetPooledObj(adeli_num);
             //if (dir == 0)
             adelie.transform.localScale = new Vector3(-1, 1, 1);
             //if (pos.Count == 0)

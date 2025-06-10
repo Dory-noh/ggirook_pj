@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class bird_manager : MonoBehaviour
 {
-    public GameObject gull_prefab;
+    //public GameObject gull_prefab;
     public GameObject ui_manager;
     int coin;
     public float time;
@@ -29,7 +29,7 @@ public class bird_manager : MonoBehaviour
     {
         float y = Random.Range(-0.5f, 2);
         yield return new WaitForSeconds(time);
-        GameObject gull = Instantiate(gull_prefab);
+        GameObject gull = poolingManager.Instance.GetPooledObj(gull_num);
         gull.transform.position = new Vector3(-10.55f, y, 0.35f);
         is_respawn[gull_num] = true;
     }
@@ -41,7 +41,7 @@ public class bird_manager : MonoBehaviour
         {
             for (int i = 0; i < gullNames.Length; i++)
             {
-                if (gull_prefab.transform.CompareTag(gullNames[i]))
+                if (poolingManager.Instance.prefabs[gull_num].transform.CompareTag(gullNames[i]))
                 {
                     time = respawnTimes[i];
                     break;

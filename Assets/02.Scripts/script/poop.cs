@@ -9,7 +9,8 @@ public class poop : MonoBehaviour
     int power;
     int speed;
     float timeTerm = 0.5f;
-    private void Start()
+    
+    private void OnEnable()
     {
         rb = transform.GetComponent<Rigidbody2D>();
         speed = 140;
@@ -21,7 +22,13 @@ public class poop : MonoBehaviour
         yield return new WaitForSeconds(0.1f);
         rb.AddForce(Vector3.right*speed);
         //if(Vector3.Distance(gull.transform.position,))
-        Destroy(gameObject, 4f);
+        StartCoroutine(DelayedReturn(4f));
+    }
+
+    IEnumerator DelayedReturn(float time)
+    {
+        yield return new WaitForSeconds(time); // 0.01√  ¥Î±‚
+        poolingManager.Instance.ReturnPooledObj(gameObject);
     }
 
     private void OnTriggerEnter2D(Collider2D col)
@@ -30,7 +37,7 @@ public class poop : MonoBehaviour
         if (col.gameObject.tag.StartsWith("enemy"))
         {
             StartCoroutine(HitReady(col));
-            Destroy(gameObject,5f);
+            StartCoroutine(DelayedReturn(5f));
         }
     }
 
