@@ -62,10 +62,15 @@ public class devil_manager : MonoBehaviour
     IEnumerator respawn_devil()
     {
         yield return new WaitForSeconds(2f);
-        while (true)
+        while (!GameManager.instance.gameover)
         {
             float y = Random.Range(-0.5f, 2);
             GameObject devil = poolingManager.Instance.GetPooledObj(devil_num);
+            if (devil == null)
+            {
+                yield return new WaitForSeconds(time);
+                continue;
+            }
             try
             {
                 devil.transform.name = enemy_name;

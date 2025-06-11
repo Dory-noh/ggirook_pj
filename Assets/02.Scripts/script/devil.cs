@@ -32,12 +32,17 @@ public class devil : MonoBehaviour
     bool isNestAttack = false;
     //public bool time_changer;
     float origin_y;
+    private bool attackLoopRunning = false; // 공격 코루틴 중복 방지용 플래그
     Vector3 velo = Vector3.zero;
     Vector3 targetPos;
     public Animation walkAni;
     public Text damage_text;
     public RainEvent_manager rainEvent_Manager;
     public NestUpgrade_manager nestUpgrade_Manager;
+
+    // 공격 관련 상태
+    bool isAttacking = false;
+    GameObject currentTarget = null;
 
     // Start is called before the first frame update
     void OnEnable()
@@ -46,6 +51,7 @@ public class devil : MonoBehaviour
         ui_manager = GameObject.FindGameObjectWithTag("ui_manager");
         adelie_push = false;
         ismove = true;
+        transform.GetChild(2).gameObject.SetActive(false);
         origin_y = transform.position.y;
         if (transform.CompareTag("enemy_gull"))
         {
@@ -109,7 +115,7 @@ public class devil : MonoBehaviour
     }
     IEnumerator Move()
     {
-        while (true)
+        while (!GameManager.instance.gameover)
         {
             yield return new WaitForSeconds(0.06f);
             if (ismove)
@@ -196,14 +202,60 @@ public class devil : MonoBehaviour
         if (col.gameObject.tag.StartsWith("gull"))
         {
             ismove = false;
+            isAttacking = true;
+            currentTarget = col.gameObject;
             col.transform.GetComponent<gull>().hit(power);
             transform.GetChild(0).gameObject.SetActive(false);
             transform.GetChild(1).gameObject.SetActive(false);
             transform.GetChild(2).gameObject.SetActive(true);
-           
+
+            if (!attackLoopRunning)
+            {
+                StartCoroutine(AttackLoop());
+            }
         }
-        StartCoroutine(wait());
+        
     }
+    private void OnTriggerExit2D(Collider2D col)
+    {
+        if (col.gameObject == currentTarget)
+        {
+            isAttacking = false;
+            ismove = true;
+            currentTarget = null;
+        }
+    }
+
+    IEnumerator AttackLoop()
+    {
+        attackLoopRunning = true;
+        while (isAttacking && currentTarget != null)
+        {
+            if (!currentTarget.activeInHierarchy)
+            {
+                isAttacking = false;
+                ismove = true;
+                currentTarget = null;
+                break;
+            }
+
+            devil devilScript = currentTarget.GetComponent<devil>();
+            if (devilScript != null)
+            {
+                devilScript.hit(power);
+
+                /* //공격 모션
+                Vector3 pushDir = (currentTarget.transform.position - transform.position).normalized;
+                pushDir.y = currentTarget.transform.position.y;
+                currentTarget.transform.position += pushDir * 0.2f; */
+            }
+
+            yield return new WaitForSeconds(1.0f); // 공격 간격
+        }
+        attackLoopRunning = false;
+        ismove = true;
+    }
+
     IEnumerator AttackNest()
     {
         nest_hp_manager.GetComponent<nest_hp_manager>().hp -= power;

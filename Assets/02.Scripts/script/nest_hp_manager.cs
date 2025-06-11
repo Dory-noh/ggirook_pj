@@ -7,7 +7,7 @@ public class nest_hp_manager : MonoBehaviour
 {
     public Image hp_img;
     public int hp = 0;
-    bool gameover = false;
+    
     public int Maxhp;
     public bool adeli_push;
     public Text nest_hp_text;
@@ -25,10 +25,10 @@ public class nest_hp_manager : MonoBehaviour
     {
         nest_hp_text.text = hp.ToString() + " / " + Maxhp.ToString();
         hp_img.fillAmount = (float)hp/(float)Maxhp;
-        if (hp <= 0 && gameover == false)
+        if (hp <= 0 && GameManager.instance.gameover == false)
         {
             GameObject.FindGameObjectWithTag("ui_manager").GetComponent<ui_manager>().open_fail();
-            gameover = true;
+            GameManager.instance.gameover = true;
 
         }
     }

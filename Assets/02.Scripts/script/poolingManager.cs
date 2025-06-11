@@ -10,7 +10,7 @@ public class poolingManager : MonoBehaviour
     //풀링한 오브젝트 모아놓을 오브젝트
     private GameObject PoolingParent;
     //초기 생성할 오브젝트 수
-    public int[] poolSize = {30, 10, 250};
+    public int[] poolSize = {40, 10, 500};
     //풀에 저장될 오브젝트 리스트
     private List<List<GameObject>> pooledObjects;
     void Awake()

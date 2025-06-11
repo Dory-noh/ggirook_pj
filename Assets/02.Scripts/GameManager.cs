@@ -6,8 +6,10 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
     public bool EndlessMode = false;
+    public bool gameover = false;
     void Awake()
     {
+        gameover = false;
         if (instance == null) instance = this;
         else if (instance != this) Destroy(gameObject);
     }

@@ -1,6 +1,5 @@
-using System.Collections;
+Ôªøusing System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,67 +8,61 @@ public class gull : MonoBehaviour
     public bool adelie_push;
     public Image hp_img;
     bool ismove;
-    float hp;
+    public float hp;
     int maxhp;
     int power;
-    bool change_img;
     float speed;
-    //public bool time_changer;
     Vector3 velo = Vector3.zero;
     Vector3 targetPos;
-    public int respawn_time;//º“»Ø±Ó¡ˆ ∞…∏Æ¥¬ Ω√∞£
+    public int respawn_time;
     float origin_y;
 
     public Animation walkAni;
 
-    private void OnEnable() 
+    // Í≥µÍ≤© Í¥ÄÎ†® ÏÉÅÌÉú
+    bool isAttacking = false;
+    GameObject currentTarget = null;
+
+    private void OnEnable()
     {
         walkAni = GetComponent<Animation>();
         adelie_push = false;
         origin_y = transform.position.y;
+
+        // Îä•Î†•Ïπò ÏÑ§Ï†ï
         if (transform.CompareTag("gull_b1"))
         {
-            maxhp = 50;
-            power = 10;
-            speed = 0.1f;
+            maxhp = 50; power = 10; speed = 0.1f;
         }
         if (transform.CompareTag("gull_b2"))
         {
-            maxhp = 150;
-            power = 20;
-            speed = 0.2f;
+            maxhp = 150; power = 20; speed = 0.2f;
         }
         if (transform.CompareTag("gull_b3"))
         {
-            maxhp = 200;
-            power = 10;
-            speed = 0.2f;
-            adelie_push = true; //¿ßƒ°∞° ≥ π´ ¿ÃªÛ«ÿ¡Æº≠ æ∆µ®∏Æ¿« «™Ω√∞¯∞› ¥Á«œ¡ˆ æ µµ∑œ º≥¡§«‘.
+            maxhp = 200; power = 10; speed = 0.2f;
+            adelie_push = true;
         }
         if (transform.CompareTag("gull_b4"))
         {
-            maxhp = 400;
-            power = 20;
-            speed = 0.2f;
+            maxhp = 400; power = 20; speed = 0.2f;
         }
         if (transform.CompareTag("gull_b5"))
         {
-            maxhp = 150;
-            power = 250;
-            speed = 0.2f;
+            maxhp = 150; power = 250; speed = 0.2f;
         }
+
         hp = maxhp;
         ismove = true;
         StartCoroutine(move());
-        change_img = true;
-        //transform.GetChild(0).gameObject.SetActive(change_img);
-        //transform.GetChild(1).gameObject.SetActive(!change_img);
+
+        transform.GetChild(2).gameObject.SetActive(false);
         hp_img = gameObject.transform.GetComponentInChildren<Canvas>().transform.GetChild(1).GetComponent<Image>();
+
         if (transform.CompareTag("gull_b3"))
-        {
             targetPos = new Vector3(50.44f, origin_y, 0.35f);
-        }
-        else targetPos = new Vector3(45.44f, origin_y, 0.35f);
+        else
+            targetPos = new Vector3(45.44f, origin_y, 0.35f);
     }
 
     IEnumerator move()
@@ -77,32 +70,28 @@ public class gull : MonoBehaviour
         while (true)
         {
             yield return new WaitForSeconds(0.06f);
+
             if (ismove)
             {
-                transform.position = Vector3.SmoothDamp(transform.position, targetPos, ref velo, speed * 1200f*Time.deltaTime);
-                if (walkAni.isPlaying == false)
+                transform.position = Vector3.SmoothDamp(transform.position, targetPos, ref velo, speed * 1200f * Time.deltaTime);
+                if (!walkAni.isPlaying) walkAni.Play();
+
+                if ((targetPos.x - transform.position.x) < 2.0f)
                 {
-                    Debug.Log("∞•∏≈±‚ ∞»±‚");
-                    walkAni.Play();
-                }
-                //if(Vector3.Distance(gull.transform.position,))
-                if ((targetPos.x - gameObject.transform.position.x) < 2.0f)
-                {
-                    Debug.Log("∞•∏≈±‚∞° ªÁ∂Û¡˝¥œ¥Ÿ.");
                     StartCoroutine(DelayedReturn());
                 }
             }
             else
             {
-                if(walkAni.isPlaying) walkAni.Stop();
+                if (walkAni.isPlaying) walkAni.Stop();
             }
-
         }
     }
+
     public void hit(int power)
     {
-        if (gameObject.activeSelf == true)
-            StartCoroutine(damage(power)); //gull¿« µ•πÃ¡ˆ∏¶ ±¥¬ «‘ºˆ
+        if (gameObject.activeSelf)
+            StartCoroutine(damage(power));
     }
 
     IEnumerator damage(int power)
@@ -110,30 +99,39 @@ public class gull : MonoBehaviour
         yield return new WaitForSeconds(0.1f);
         hp -= power;
         hp = Mathf.Clamp(hp, 0, maxhp);
-        if (hp <= 0) StartCoroutine(DelayedReturn());
-        hp_img.fillAmount = (float)hp / (float)maxhp;
+
+        if (hp <= 0)
+        {
+            StartCoroutine(DelayedReturn());
+        }
+
+        hp_img.fillAmount = hp / maxhp;
         if (hp_img.fillAmount <= 0.3f)
-        {
             hp_img.color = Color.red;
-        }
         else if (hp_img.fillAmount <= 0.5f)
-        {
             hp_img.color = Color.yellow;
-        }
+        else
+            hp_img.color = Color.green;
+
+        // ÌîºÍ≤© Ïó∞Ï∂ú (Î∞ÄÎ¶¨Îäî ÎäêÎÇå)
         transform.position = new Vector3(transform.position.x - 0.23f, origin_y, transform.position.z);
         yield return new WaitForSeconds(0.1f);
         transform.position = new Vector3(transform.position.x + 0.2f, origin_y, transform.position.z);
         yield return new WaitForSeconds(0.3f);
+
         ismove = true;
     }
 
     IEnumerator DelayedReturn()
     {
-        yield return new WaitForSeconds(0.01f); // 0.01√  ¥Î±‚
+        yield return new WaitForSeconds(0.01f);
         poolingManager.Instance.ReturnPooledObj(gameObject);
         hp = maxhp;
-        hp_img.fillAmount = (float)hp / (float)maxhp;
+        hp_img.fillAmount = 1.0f;
         hp_img.color = Color.green;
+        isAttacking = false;
+        ismove = true;
+        currentTarget = null;
     }
 
     private void OnTriggerEnter2D(Collider2D col)
@@ -141,30 +139,66 @@ public class gull : MonoBehaviour
         if (col.gameObject.tag.StartsWith("enemy"))
         {
             ismove = false;
-            col.transform.GetComponent<devil>().hit(power);
+            isAttacking = true;
+            currentTarget = col.gameObject;
+            col.GetComponent<devil>().hit(power); // Ï≤´ ÌÉÄÍ≤©
+
             if (!transform.CompareTag("gull_b3"))
             {
                 transform.GetChild(0).gameObject.SetActive(false);
                 transform.GetChild(1).gameObject.SetActive(false);
                 transform.GetChild(2).gameObject.SetActive(true);
             }
+
+            StartCoroutine(AttackLoop());
         }
-
-        StartCoroutine(wait());
     }
 
-    IEnumerator wait()
+    private void OnTriggerExit2D(Collider2D col)
     {
-        yield return new WaitForSeconds(0.3f);
+        if (col.gameObject == currentTarget)
+        {
+            isAttacking = false;
+            ismove = true;
+            currentTarget = null;
+        }
     }
+
+    IEnumerator AttackLoop()
+    {
+        while (isAttacking && currentTarget != null)
+        {
+            if (!currentTarget.activeInHierarchy)
+            {
+                isAttacking = false;
+                ismove = true;
+                currentTarget = null;
+                yield break;
+            }
+
+            devil devilScript = currentTarget.GetComponent<devil>();
+            if (devilScript != null)
+            {
+                devilScript.hit(power);
+
+                //Í≥µÍ≤© Î™®ÏÖò
+                Vector3 pushDir = (currentTarget.transform.position - transform.position).normalized;
+                pushDir.y = currentTarget.transform.position.y;
+                currentTarget.transform.position += pushDir * 0.2f; 
+            }
+
+            yield return new WaitForSeconds(1.0f); // Í≥µÍ≤© Í∞ÑÍ≤©
+        }
+    }
+
+    public void wait_adelie()
+    {
+        StartCoroutine(wait2());
+    }
+
     IEnumerator wait2()
     {
         yield return new WaitForSeconds(1f);
         adelie_push = false;
-    }
-    public void wait_adelie()
-    {
-        StartCoroutine(wait2());
-        
     }
 }
